@@ -8,6 +8,7 @@ namespace MyMoviesProject
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using MyMoviesProject.Data;
+    using MyMoviesProject.Infrastructure;
 
     public class Startup
     {
@@ -19,7 +20,7 @@ namespace MyMoviesProject
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddDbContext<ApplicationDbContext>(options =>
+                .AddDbContext<MoviesDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
@@ -28,7 +29,7 @@ namespace MyMoviesProject
             services
                 .AddDefaultIdentity<IdentityUser>(options
                 => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<MoviesDbContext>();
 
             services.AddControllersWithViews();
         }
@@ -36,6 +37,8 @@ namespace MyMoviesProject
        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.PrepareDatabase();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
