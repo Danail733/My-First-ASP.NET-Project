@@ -9,6 +9,7 @@ namespace MyMoviesProject
     using Microsoft.Extensions.Hosting;
     using MyMoviesProject.Data;
     using MyMoviesProject.Infrastructure;
+    using MyMoviesProject.Services.Directors;
 
     public class Startup
     {
@@ -32,6 +33,8 @@ namespace MyMoviesProject
                 .AddEntityFrameworkStores<MoviesDbContext>();
 
             services.AddControllersWithViews();
+
+            services.AddTransient<IDirectorService, DirectorService>();
         }
 
        

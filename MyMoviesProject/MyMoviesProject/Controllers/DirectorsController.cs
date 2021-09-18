@@ -1,16 +1,16 @@
 ﻿namespace MyMoviesProject.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
-    using MyMoviesProject.Data;
-    using MyMoviesProject.Data.Models;
     using MyMoviesProject.Models.Directors;
+    using MyMoviesProject.Services.Directors;
 
     public class DirectorsController : Controller
-    {
-        private MoviesDbContext data;
+    {   
+        private readonly IDirectorService directors;
 
-        public DirectorsController(MoviesDbContext data) => this.data = data;
-        
+        public DirectorsController(IDirectorService directors)
+            => this.directors = directors;
+
         public IActionResult Add()
             => View();
 
@@ -22,15 +22,7 @@
                 return View(director);
             }
 
-            var directorData = new Director
-            {
-                Name = director.Name,
-                Biography = director.Biography,
-                ImageUrl = director.ImageUrl,
-            };
-
-            this.data.Directors.Add(directorData);
-            this.data.SaveChanges();
+            this.directors.Add(director.Name, director.Biography, director.ImageUrl);
 
             return RedirectToAction("Index", "Home");
         }
