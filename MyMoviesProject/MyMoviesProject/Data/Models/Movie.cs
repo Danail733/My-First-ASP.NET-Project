@@ -12,7 +12,7 @@
         [MaxLength(MovieNameMaxLength)]
         public string Name { get; set; }
 
-        public IEnumerable<MovieGenre> MovieGenres { get; set; } = new List<MovieGenre>();
+        public List<MovieGenre> MovieGenres { get; set; } = new List<MovieGenre>();
 
         [Required]
         public string ImageUrl { get; set; }
@@ -24,7 +24,7 @@
 
         public int DirectorId { get; set; }
 
-        public IEnumerable<MovieActor> MovieActors { get; set; } = new List<MovieActor>();
+        public List<MovieActor> MovieActors { get; set; } = new List<MovieActor>();
         
         [Required]
         public string Storyline { get; set; }

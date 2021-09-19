@@ -1,0 +1,61 @@
+﻿@model MovieFormModel
+
+@{ 
+    ViewData["Title"] = "Add Movie";
+}
+
+<h2 class="text-center mt-4">Add a new Movie</h2>
+<div class="container">
+    <div class="row ">
+        <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" placeholder="Enter movie's name">
+                    <span asp-validation-for="Name" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="GenresIds"></label>
+                    <select asp-for="GenresIds" class="form-select " multiple>
+                        @foreach (var genre in Model.Genres)
+                        {
+                            <option value="@genre.Id">@genre.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="GenresIds" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImageUrl"></label>
+                    <input asp-for="ImageUrl" class="form-control" placeholder="Your fine URL here..">
+                    <span asp-validation-for="ImageUrl" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Year"></label>
+                    <input asp-for="Year" class="form-control" placeholder="@DateTime.UtcNow.Year">
+                    <span asp-validation-for="Year" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DirectorId"></label>
+                    <select asp-for="DirectorId" class="form-select">
+                        @foreach (var director in Model.Directors)
+                        {
+                            <option value="@director.Id">@director.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="DirectorId" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Actors"></label>
+                    <textarea asp-for="Actors" class="form-control" rows="2" placeholder="Leonardo Dicaprio, Bradd Pit, etc.."></textarea>
+                    <span asp-validation-for="Actors" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Storyline"></label>
+                    <textarea asp-for="Storyline" class="form-control" rows="4" placeholder="Thomas A. Anderson is a man living two lives...."></textarea>
+                    <span asp-validation-for="Storyline" class="small text-danger"></span>
+                </div>
+                <input class="btn btn-primary mt-3" type="submit" value="Add" />
+            </form>
+        </div>
+    </div>
+</div>

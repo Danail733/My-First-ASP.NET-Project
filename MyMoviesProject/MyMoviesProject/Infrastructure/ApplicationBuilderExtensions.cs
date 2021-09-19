@@ -38,16 +38,9 @@
             }
 
             data.Genres.AddRange(new[]
-            {
-               new Genre {Name="Action"},
-               new Genre {Name="Comedy"},
-               new Genre {Name="Drama"},
-               new Genre {Name="Fantasy"},
-               new Genre {Name="Horror"},
-               new Genre {Name="Mystery"},
-               new Genre {Name="Romance"},
-               new Genre {Name="Thriller"},
-                new Genre {Name="Western"},
+            {          
+               new Genre {Name="Biography"},
+               new Genre {Name="Crime"},
             });
 
             data.SaveChanges();
