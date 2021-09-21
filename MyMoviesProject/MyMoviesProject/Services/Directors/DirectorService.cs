@@ -2,6 +2,7 @@
 {
     using MyMoviesProject.Data;
     using MyMoviesProject.Data.Models;
+    using System.Linq;
 
     public class DirectorService : IDirectorService
     {
@@ -26,5 +27,9 @@
             return director.Id;
 
         }
+
+        public bool IsDirectorExists(string name)
+            => name!=null ? this.data.Directors.Any(d => d.Name.ToLower() == name.ToLower())
+            : false;
     }
 }

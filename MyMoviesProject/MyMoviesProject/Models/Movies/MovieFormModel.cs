@@ -29,9 +29,10 @@
 
         public IEnumerable<MovieDirectorServiceModel> Directors { get; set; }
 
-        [Required]
-        [StringLength(MovieActorsMaxValue, MinimumLength =MovieActorsMinValue)]
-        public string Actors { get; init; }
+        [Display(Name="Actors")]
+        public int[] ActorsIds { get; init; }
+
+        public IEnumerable<MovieActorsServiceModel> Actors { get; set; }
 
         [Required]
         [StringLength(StorylineMaxValue, MinimumLength =StorylineMinValue)]

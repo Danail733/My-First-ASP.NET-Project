@@ -16,7 +16,8 @@
             return View(new MovieFormModel
             {
                 Genres=this.movies.AllGenres(),              
-                Directors=this.movies.AllDirectors(),  
+                Directors=this.movies.AllDirectors(),
+                Actors=this.movies.AllActors(),
             });
         }
 
@@ -33,15 +34,21 @@
                 this.ModelState.AddModelError(nameof(movie.DirectorId), "Director does not exists!");
             }
 
+            if (this.movies.IsMovieExists(movie.Name))
+            {
+                this.ModelState.AddModelError(nameof(movie.Name), "This movie already exists!");
+            }
+
             if (!ModelState.IsValid)
             {
                 movie.Genres = this.movies.AllGenres();
                 movie.Directors = this.movies.AllDirectors();
+                movie.Actors = this.movies.AllActors();
                 return View(movie);
             }
 
             this.movies.Add(movie.Name, movie.GenresIds, movie.ImageUrl, movie.Year,
-                movie.DirectorId, movie.Actors, movie.Storyline);
+                movie.DirectorId, movie.ActorsIds, movie.Storyline);
 
             return RedirectToAction("Index", "Home");
         }

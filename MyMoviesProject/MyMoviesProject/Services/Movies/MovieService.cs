@@ -13,8 +13,8 @@
             => this.data = data;
 
         public int Add(string name, int[] genresIds, string imageUrl, int year,
-            int directorId, string actors, string storyline)
-        {       
+            int directorId, int[] actorsIds, string storyline)
+        {
             var movie = new Movie
             {
                 Name = name,
@@ -23,13 +23,22 @@
                 DirectorId = directorId,
                 Storyline = storyline
             };
-           
+
             foreach (var genreId in genresIds)
             {
                 movie.MovieGenres.Add(new MovieGenre
                 {
                     MovieId = movie.Id,
-                    GenreId=genreId
+                    GenreId = genreId
+                });
+            }
+
+            foreach (var actorId in actorsIds)
+            {
+                movie.MovieActors.Add(new MovieActor
+                {
+                    MovieId = movie.Id,
+                    ActorId = actorId
                 });
             }
 
@@ -38,6 +47,10 @@
 
             return movie.Id;
         }
+        public bool IsMovieExists(string name)
+            => name != null ? this.data.Movies.Any(m => m.Name.ToLower() == name.ToLower())
+            : false;
+
 
         public IEnumerable<MovieGenresServiceModel> AllGenres()
             => this.data.Genres
@@ -47,7 +60,7 @@
                 Name = g.Name
             }).ToList();
 
-           
+
         public bool GenreExists(int[] genreIds)
         {
             var allids = this.data.Genres.Select(g => g.Id).ToArray();
@@ -62,7 +75,7 @@
             }
             return true;
         }
-           
+
         public IEnumerable<MovieActorsServiceModel> AllActors()
             => this.data.Actors
             .Select(a => new MovieActorsServiceModel

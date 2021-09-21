@@ -19,6 +19,11 @@
         [HttpPost]
         public IActionResult Add(ActorFormModel actor)
         {
+            if (this.actors.IsActorExist(actor.Name))
+            {
+                this.ModelState.AddModelError(nameof(actor.Name), "This actor already exists!");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(actor);

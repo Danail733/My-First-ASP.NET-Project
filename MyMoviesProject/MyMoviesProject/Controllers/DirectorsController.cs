@@ -17,6 +17,11 @@
         [HttpPost]
         public IActionResult Add(DirectorFormModel director)
         {
+            if (this.directors.IsDirectorExists(director.Name))
+            {
+                this.ModelState.AddModelError(nameof(director.Name), "This director already exists");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(director);

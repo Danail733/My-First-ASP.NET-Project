@@ -5,7 +5,7 @@
     public interface IMovieService
     {
         public int Add(string name, int[] genresIds, string imageUrl, int year,
-            int directorId, string actors, string storyline);
+            int directorId, int[] actorsIds, string storyline);
 
         public IEnumerable<MovieGenresServiceModel> AllGenres();
 
@@ -18,6 +18,9 @@
         public IEnumerable<MovieDirectorServiceModel> AllDirectors();
 
         public bool DirectorExists(int directorId);
-      
+
+        public bool IsMovieExists(string name);
+
+
     }
 }

@@ -45,9 +45,14 @@
                     <span asp-validation-for="DirectorId" class="small text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Actors"></label>
-                    <textarea asp-for="Actors" class="form-control" rows="2" placeholder="Leonardo Dicaprio, Bradd Pit, etc.."></textarea>
-                    <span asp-validation-for="Actors" class="small text-danger"></span>
+                    <label asp-for="ActorsIds"></label>
+                    <select asp-for="ActorsIds" class="form-select" multiple>
+                        @foreach (var actor in Model.Actors)
+                        {
+                            <option value="@actor.Id">@actor.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="ActorsIds" class="small text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Storyline"></label>
