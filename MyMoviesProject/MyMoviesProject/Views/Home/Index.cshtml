@@ -1,8 +1,20 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Welcome";
 }
+@*<div class="row">
+    <h3>Last released</h3>
+    @foreach (var movie in Model)
+    {
+        <div class="col-md-3 col-sm-auto">
+            <div class="card" style="width: 15rem;">
+                <img src="@movie.ImageUrl" class="card-img-top" alt="@movie.Name (@movie.Year)">
+                <div class="card-body text-center">
+                    <h5 class="card-title">@movie.Name (@movie.Year)</h5>
+                    <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-primary">More</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>*@
+   
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>

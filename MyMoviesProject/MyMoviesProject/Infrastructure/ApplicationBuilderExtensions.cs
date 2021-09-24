@@ -39,8 +39,7 @@
 
             data.Genres.AddRange(new[]
             {          
-               new Genre {Name="Biography"},
-               new Genre {Name="Crime"},
+               new Genre {Name="Adventure"},              
             });
 
             data.SaveChanges();

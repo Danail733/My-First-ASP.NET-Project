@@ -53,5 +53,15 @@
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult All([FromQuery] AllMoviesQueryModel query)
+        {
+            var queryResult = this.movies.ListAllMovies(query.SearchTerm, query.Sorting,
+                query.CurrentPage,AllMoviesQueryModel.MoviesPerPage);
+
+            query.Movies = queryResult.Movies;
+            query.TotalMovies = queryResult.TotalMovies;
+
+            return View(query);
+        }
     }
 }

@@ -11,10 +11,8 @@
         public ActorsController(IActorService actors) 
             => this.actors = actors;
 
-        public IActionResult Add()
-        {
-            return View();
-        }
+        public IActionResult Add() 
+            => View();
 
         [HttpPost]
         public IActionResult Add(ActorFormModel actor)

@@ -1,5 +1,6 @@
 ﻿namespace MyMoviesProject.Services.Movies
 {
+    using MyMoviesProject.Models.Movies;
     using System.Collections.Generic;
 
     public interface IMovieService
@@ -20,6 +21,9 @@
         public bool DirectorExists(int directorId);
 
         public bool IsMovieExists(string name);
+
+        public MovieQueryServiceModel ListAllMovies(string searchTerm,
+           MovieSorting sorting, int currentPage, int carsPerPage);
 
 
     }

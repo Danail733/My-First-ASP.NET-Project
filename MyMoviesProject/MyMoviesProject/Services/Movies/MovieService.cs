@@ -2,6 +2,7 @@
 {
     using MyMoviesProject.Data;
     using MyMoviesProject.Data.Models;
+    using MyMoviesProject.Models.Movies;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -29,7 +30,7 @@
                 movie.MovieGenres.Add(new MovieGenre
                 {
                     MovieId = movie.Id,
-                    GenreId = genreId
+                    GenreId = genreId,
                 });
             }
 
@@ -98,6 +99,49 @@
         public bool DirectorExists(int directorId)
             => this.data.Directors
             .Any(d => d.Id == directorId);
+
+        public MovieQueryServiceModel ListAllMovies(string searchTerm,
+            MovieSorting sorting, int currentPage, int moviesPerPage)
+        {
+            var moviesQuery = this.data.Movies.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                moviesQuery = moviesQuery.Where(m => m.Name.ToLower()
+                  .Contains(searchTerm.ToLower()));
+            }
+
+            moviesQuery = sorting switch
+            {           
+                MovieSorting.Name => moviesQuery.OrderBy(m => m.Name.Trim()),
+                MovieSorting.Year => moviesQuery.OrderByDescending(m => m.Year),              
+                _ =>moviesQuery.OrderByDescending(m=>m.Id)
+            };
+
+            var totalMovies = moviesQuery.Count();
+
+            var movies = GetMovies(moviesQuery.Skip((currentPage - 1)
+                * moviesPerPage).Take(moviesPerPage));
+            
+            return new MovieQueryServiceModel
+            {
+                TotalMovies=totalMovies,
+                CurrentPage=currentPage,
+                MoviesPerPage=moviesPerPage,
+                Movies=movies
+            };
+        }
+
+        private static IEnumerable<MovieServiceModel> GetMovies(IQueryable<Movie> movieQuery)
+           => movieQuery.Select(m => new MovieServiceModel
+           {
+               Id = m.Id,
+               Name = m.Name,
+               Year = m.Year,
+               ImageUrl = m.ImageUrl
+           })
+            .ToList();
+
 
     }
 }
