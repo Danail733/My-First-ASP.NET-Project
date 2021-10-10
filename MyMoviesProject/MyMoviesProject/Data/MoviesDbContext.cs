@@ -45,7 +45,7 @@
 
             builder.Entity<MovieGenre>()
                 .HasOne(mg => mg.Genre)
-                .WithMany(g => g.MovieActors)
+                .WithMany(g => g.MovieGenres)
                 .HasForeignKey(mg => mg.GenreId)
                 .OnDelete(DeleteBehavior.Restrict);
 

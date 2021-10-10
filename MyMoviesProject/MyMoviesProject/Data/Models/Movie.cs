@@ -6,25 +6,30 @@
 
     public class Movie
     {
+        public Movie()
+        {
+            this.MovieActors = new List<MovieActor>();
+            this.MovieGenres = new List<MovieGenre>();
+        }
         public int Id { get; init; }
 
         [Required]
         [MaxLength(MovieNameMaxLength)]
         public string Name { get; set; }
 
-        public List<MovieGenre> MovieGenres { get; set; } = new List<MovieGenre>();
+        public List<MovieGenre> MovieGenres { get; set; }// = new List<MovieGenre>();
 
         [Required]
         public string ImageUrl { get; set; }
 
         [Range(MovieYearMinValue,MovieYearMaxValue)]
-        public int Year { get; init; }
+        public int Year { get; set; }
 
         public Director Director { get; set; }
 
         public int DirectorId { get; set; }
 
-        public List<MovieActor> MovieActors { get; set; } = new List<MovieActor>();
+        public List<MovieActor> MovieActors { get; set; }// = new List<MovieActor>();
         
         [Required]
         public string Storyline { get; set; }

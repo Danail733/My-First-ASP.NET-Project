@@ -8,16 +8,16 @@
     {
         private readonly IMovieService movies;
 
-        public MoviesController(IMovieService movies) 
+        public MoviesController(IMovieService movies)
             => this.movies = movies;
 
         public IActionResult Add()
         {
             return View(new MovieFormModel
             {
-                Genres=this.movies.AllGenres(),              
-                Directors=this.movies.AllDirectors(),
-                Actors=this.movies.AllActors(),
+                Genres = this.movies.AllGenres(),
+                Directors = this.movies.AllDirectors(),
+                Actors = this.movies.AllActors(),
             });
         }
 
@@ -50,18 +50,69 @@
             this.movies.Add(movie.Name, movie.GenresIds, movie.ImageUrl, movie.Year,
                 movie.DirectorId, movie.ActorsIds, movie.Storyline);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("All", "Movies");
         }
 
         public IActionResult All([FromQuery] AllMoviesQueryModel query)
         {
             var queryResult = this.movies.ListAllMovies(query.SearchTerm, query.Sorting,
-                query.CurrentPage,AllMoviesQueryModel.MoviesPerPage);
+                query.CurrentPage);
 
             query.Movies = queryResult.Movies;
             query.TotalMovies = queryResult.TotalMovies;
 
             return View(query);
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var movie = this.movies.Details(id);
+
+            return View(new MovieFormModel
+            {
+                Name = movie.Name,
+                Year = movie.Year,
+                ImageUrl = movie.ImageUrl,
+                Storyline = movie.Storyline,
+                DirectorId = movie.DirectorId,
+                ActorsIds = movie.ActorsIds,
+                GenresIds = movie.GenresIds,
+                Genres = this.movies.AllGenres(),
+                Directors = this.movies.AllDirectors(),
+                Actors = this.movies.AllActors()
+            });
+        }
+
+        [HttpPost]
+        public IActionResult Edit(int id, MovieFormModel movie)
+        {
+            if (!this.movies.GenreExists(movie.GenresIds))
+            {
+                this.ModelState.AddModelError(nameof(movie.GenresIds), "This genres does not exists!");
+            }
+
+            if (!this.movies.DirectorExists(movie.DirectorId))
+            {
+                this.ModelState.AddModelError(nameof(movie.DirectorId), "Director does not exists!");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                movie.Genres = this.movies.AllGenres();
+                movie.Directors = this.movies.AllDirectors();
+                movie.Actors = this.movies.AllActors();
+                return View(movie);
+            }
+
+            if (!this.movies.isIdValid(id))
+            {
+                return BadRequest();
+            }
+
+            this.movies.Edit(id, movie.Name, movie.ImageUrl, movie.GenresIds, movie.Year,
+                movie.DirectorId, movie.ActorsIds, movie.Storyline);  
+                  
+            return RedirectToAction("All", "Movies");
         }
     }
 }

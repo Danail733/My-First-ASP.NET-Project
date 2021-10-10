@@ -1,8 +1,6 @@
 ﻿@model DirectorFormModel
 
-@{
-    ViewData["Title"] = "Add Director";
-}
+@{ ViewData["Title"] = "Add Director"; }
 
 <h2 class="text-center mt-4 mb-4">Add a new Director</h2>
 <div class="container">
@@ -24,7 +22,9 @@
                     <input asp-for="ImageUrl" class="form-control" placeholder="Your fine URL here..">
                     <span asp-validation-for="ImageUrl" class="small text-danger"></span>
                 </div>
-                <input class="btn btn-primary mt-3" type="submit" value="Add" />
+                <div class="text-center">
+                    <input class="btn btn-success mt-3" type="submit" value="Save" />
+                </div>
             </form>
         </div>
     </div>

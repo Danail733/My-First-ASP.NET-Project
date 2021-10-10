@@ -8,6 +8,14 @@
         public int Add(string name, int[] genresIds, string imageUrl, int year,
             int directorId, int[] actorsIds, string storyline);
 
+        public MovieQueryServiceModel ListAllMovies(string searchTerm,
+    MovieSorting sorting, int currentPage);
+
+        public MovieDetailsServiceModel Details(int id);
+
+        public void Edit(int id, string name, string imageUrl, int[] genresIds, int year,
+            int directorId, int[] actorsIds, string storyline);
+
         public IEnumerable<MovieGenresServiceModel> AllGenres();
 
         public bool GenreExists(int[] genreIds);
@@ -22,8 +30,7 @@
 
         public bool IsMovieExists(string name);
 
-        public MovieQueryServiceModel ListAllMovies(string searchTerm,
-           MovieSorting sorting, int currentPage, int carsPerPage);
+        public bool isIdValid(int id);
 
 
     }

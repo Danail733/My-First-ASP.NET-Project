@@ -8,6 +8,6 @@
 
         public string Name { get; set; }
 
-        public IEnumerable<MovieGenre> MovieActors { get; set; } = new List<MovieGenre>();
+        public IEnumerable<MovieGenre> MovieGenres { get; set; } = new List<MovieGenre>();
     }
 }
