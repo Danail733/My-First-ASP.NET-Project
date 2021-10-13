@@ -22,8 +22,7 @@
 
             this.data.Directors.Add(director);
             this.data.SaveChanges();
-
-          
+       
             return director.Id;
 
         }

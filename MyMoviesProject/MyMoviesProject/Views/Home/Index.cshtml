@@ -1,12 +1,14 @@
 ﻿@{
     ViewData["Title"] = "Welcome";
 }
-@*<div class="row">
-    <h3>Last released</h3>
+<div class="row">
+    <div class="mb-4">
+        <h3>Last released</h3>
+    </div>
     @foreach (var movie in Model)
     {
-        <div class="col-md-3 col-sm-auto">
-            <div class="card" style="width: 15rem;">
+        <div class="col-md-auto col-sm-auto col-lg-auto">
+            <div class="card" style="width: 12rem;">
                 <img src="@movie.ImageUrl" class="card-img-top" alt="@movie.Name (@movie.Year)">
                 <div class="card-body text-center">
                     <h5 class="card-title">@movie.Name (@movie.Year)</h5>
@@ -15,6 +17,6 @@
             </div>
         </div>
     }
-</div>*@
+</div>
    
 

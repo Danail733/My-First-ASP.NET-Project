@@ -11,6 +11,7 @@ namespace MyMoviesProject
     using MyMoviesProject.Infrastructure;
     using MyMoviesProject.Services.Actors;
     using MyMoviesProject.Services.Directors;
+    using MyMoviesProject.Services.Index;
     using MyMoviesProject.Services.Movies;
 
     public class Startup
@@ -39,6 +40,7 @@ namespace MyMoviesProject
             services.AddTransient<IDirectorService, DirectorService>();
             services.AddTransient<IActorService, ActorService>();
             services.AddTransient<IMovieService, MovieService>();
+            services.AddTransient<IIndexService, IndexService>();
         }
 
        

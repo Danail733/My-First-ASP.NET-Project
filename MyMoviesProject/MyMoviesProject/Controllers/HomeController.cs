@@ -1,22 +1,22 @@
 ﻿namespace MyMoviesProject.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
     using MyMoviesProject.Models;
+    using MyMoviesProject.Services.Index;
     using System.Diagnostics;
  
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IIndexService index;
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+        public HomeController(IIndexService index)
+            => this.index = index;
 
         public IActionResult Index()
         {
-            return View();
+            var lastMovies = index.LastReleasedMovies();
+
+            return View(lastMovies);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
