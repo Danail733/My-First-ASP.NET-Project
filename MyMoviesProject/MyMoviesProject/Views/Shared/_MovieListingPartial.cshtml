@@ -1,0 +1,13 @@
+﻿
+
+@foreach (var movie in Model)
+{
+<div class="col-md-auto col-sm-auto col-lg-auto">
+    <div class="card" style="width: 12rem;">
+        <img src="@movie.ImageUrl" class="card-img-top" alt="@movie.Name (@movie.Year)">
+        <div class="card-body text-center">
+            <h5 class="card-title">@movie.Name (@movie.Year)</h5>
+            <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-primary">More</a>
+        </div>
+    </div>
+</div>}

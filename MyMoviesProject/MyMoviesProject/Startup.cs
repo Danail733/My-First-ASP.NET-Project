@@ -2,17 +2,18 @@ namespace MyMoviesProject
 {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using MyMoviesProject.Data;
+    using MyMoviesProject.Data.Models;
     using MyMoviesProject.Infrastructure;
     using MyMoviesProject.Services.Actors;
     using MyMoviesProject.Services.Directors;
     using MyMoviesProject.Services.Index;
     using MyMoviesProject.Services.Movies;
+    using MyMoviesProject.Services.Watchlist;
 
     public class Startup
     {
@@ -20,7 +21,7 @@ namespace MyMoviesProject
 
         public IConfiguration Configuration { get; }
 
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
             services
@@ -31,8 +32,16 @@ namespace MyMoviesProject
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services
-                .AddDefaultIdentity<IdentityUser>(options
-                => options.SignIn.RequireConfirmedAccount = true)
+                .AddDefaultIdentity<User>(options
+                =>
+                {
+                    options.SignIn.RequireConfirmedAccount = false;
+                    options.SignIn.RequireConfirmedEmail = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireLowercase = false;
+                })
+
                 .AddEntityFrameworkStores<MoviesDbContext>();
 
             services.AddControllersWithViews();
@@ -41,9 +50,9 @@ namespace MyMoviesProject
             services.AddTransient<IActorService, ActorService>();
             services.AddTransient<IMovieService, MovieService>();
             services.AddTransient<IIndexService, IndexService>();
+            services.AddTransient<IWatchlistService, WatchlistService>();
         }
 
-       
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.PrepareDatabase();
@@ -55,7 +64,7 @@ namespace MyMoviesProject
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");    
+                app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
 

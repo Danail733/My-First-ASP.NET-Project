@@ -1,5 +1,6 @@
 ﻿namespace MyMoviesProject.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using MyMoviesProject.Models.Movies;
     using MyMoviesProject.Services.Movies;
@@ -113,6 +114,6 @@
                 movie.DirectorId, movie.ActorsIds, movie.Storyline);  
                   
             return RedirectToAction("All", "Movies");
-        }
+        }     
     }
 }

@@ -4,7 +4,7 @@
     using Microsoft.EntityFrameworkCore;
     using MyMoviesProject.Data.Models;
 
-    public class MoviesDbContext : IdentityDbContext
+    public class MoviesDbContext : IdentityDbContext<User>
     {
         public MoviesDbContext(DbContextOptions<MoviesDbContext> options)
             : base(options)
@@ -22,6 +22,8 @@
         public DbSet<MovieActor> MovieActors { get; set; }
 
         public DbSet<MovieGenre> MovieGenres { get; set; }
+
+        public DbSet<Watchlist> Watchlists { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -66,7 +68,13 @@
                 .WithMany(a => a.MovieActors)
                 .HasForeignKey(ma => ma.ActorId)
                 .OnDelete(DeleteBehavior.Restrict);
-                   
+
+            builder.Entity<User>()
+                  .HasOne(u => u.Watchlist)
+                  .WithOne(w => w.User)
+                  .HasForeignKey<User>(u => u.WatchlistId)
+                  .OnDelete(DeleteBehavior.Restrict);
+          
             base.OnModelCreating(builder);
 
         }
