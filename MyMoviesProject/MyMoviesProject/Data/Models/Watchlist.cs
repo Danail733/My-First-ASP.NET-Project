@@ -6,7 +6,7 @@
     {
         public int Id { get; init; }
 
-        public IEnumerable<Movie> Movies { get; set; } = new List<Movie>();
+        public ICollection<Movie> Movies { get; set; } = new List<Movie>();
 
         public string UserId { get; init; }
 

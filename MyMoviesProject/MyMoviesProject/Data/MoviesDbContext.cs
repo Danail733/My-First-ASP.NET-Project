@@ -76,7 +76,6 @@
                   .OnDelete(DeleteBehavior.Restrict);
           
             base.OnModelCreating(builder);
-
         }
     }
 }

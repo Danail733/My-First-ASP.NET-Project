@@ -34,6 +34,7 @@
                     <h5 class="card-title">@movie.Name (@movie.Year)</h5>
                     <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-info">More</a>
                     <a asp-controller="Movies" asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-outline-secondary">Edit</a>
+                    <a asp-controller="Watchlist" asp-action="Add" asp-route-id="@movie.Id" class="btn btn-outline-secondary">Add to watchlist</a>
                 </div>
             </div>
         </div>

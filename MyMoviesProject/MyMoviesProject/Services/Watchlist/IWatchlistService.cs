@@ -6,5 +6,7 @@
    public interface IWatchlistService
     {
         public IEnumerable<MovieServiceModel> Listing(string userId);
+
+        public int Add(int id, string userId);
     }
 }

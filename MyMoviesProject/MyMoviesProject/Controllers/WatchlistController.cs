@@ -19,5 +19,12 @@
             var model = this.watchlist.Listing(userId);
             return View(model);
         }
+
+        public IActionResult Add(int id)
+        {
+            string userId = this.User.Id();
+            this.watchlist.Add(id, userId);
+            return RedirectToAction("Movies", "Watchlist");
+        }
     }
 }
