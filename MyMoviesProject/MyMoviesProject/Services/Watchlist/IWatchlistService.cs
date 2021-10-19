@@ -8,5 +8,7 @@
         public IEnumerable<MovieServiceModel> Listing(string userId);
 
         public int Add(int id, string userId);
+
+        public int Remove(int id, string userId);
     }
 }

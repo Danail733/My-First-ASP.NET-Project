@@ -20,11 +20,20 @@
             return View(model);
         }
 
+        [Authorize]
         public IActionResult Add(int id)
         {
             string userId = this.User.Id();
             this.watchlist.Add(id, userId);
             return RedirectToAction("Movies", "Watchlist");
+        }
+
+        [Authorize]
+        public IActionResult Remove(int id)
+        {
+            string userId = this.User.Id();
+            this.watchlist.Remove(id, userId);
+            return RedirectToAction("Movies");
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace MyMoviesProject.Services.Watchlist
 {
+    using Microsoft.EntityFrameworkCore;
     using MyMoviesProject.Data;
     using MyMoviesProject.Data.Models;
     using MyMoviesProject.Services.Movies;
@@ -14,20 +15,38 @@
             => this.data = data;
 
         public IEnumerable<MovieServiceModel> Listing(string userId)
-             => this.data.Watchlists.Where(w => w.UserId == userId)
-            .Select(w => new MovieServiceModel
+        {
+            var moviesData = this.data.Watchlists.Where(w => w.UserId == userId)
+                .Include(w => w.Movies)
+                .Select(w => w.Movies).FirstOrDefault();
+
+            var user = this.data.Watchlists.Where(w => w.UserId == userId)
+                .Select(w => w.User).FirstOrDefault();
+
+            var movies = new List<MovieServiceModel>();
+
+            foreach (var movie in moviesData)
             {
-                Id=w.Movies.Select(m=>m.Id).FirstOrDefault(),
-                Name=w.Movies.Select(m=>m.Name).FirstOrDefault(),
-                ImageUrl=w.Movies.Select(m=>m.ImageUrl).FirstOrDefault(),
-                Year=w.Movies.Select(m=>m.Year).FirstOrDefault(),
-            }).ToList();
+                var movieResult = new MovieServiceModel
+                {
+                    Id = movie.Id,
+                    Name = movie.Name,
+                    Year = movie.Year,
+                    ImageUrl = movie.ImageUrl,
+                };
+
+                movies.Add(movieResult);               
+            }
+            return movies;
+        }
 
         public int Add(int id, string userId)
         {          
             var movie = this.data.Movies.Where(m => m.Id == id).FirstOrDefault();
 
-            var watchlistData = this.data.Watchlists.Where(w => w.UserId == userId).FirstOrDefault();
+            var watchlistData = this.data.Watchlists.Include(w=>w.Movies)
+                .Where(w => w.UserId == userId)
+                .FirstOrDefault();
             if (watchlistData==null)
             {
                 var movies = new List<Movie>();
@@ -36,7 +55,7 @@
                 {
                     UserId = userId,
                     Movies = movies,
-                    User=this.data.Users.Where(u=>u.Id==userId).FirstOrDefault(),
+                    User = this.data.Users.Find(userId),
                 };
                 this.data.Watchlists.Add(watchlist);
                 this.data.SaveChanges();
@@ -47,6 +66,20 @@
             }
 
             this.data.SaveChanges();
+            return movie.Id;
+        }
+
+        public int Remove(int id, string userId)
+        {
+            var movie = this.data.Movies.FirstOrDefault(m => m.Id == id);
+
+            var watchist = this.data.Watchlists.Where(w => w.UserId == userId)
+                .Include(w => w.Movies).FirstOrDefault();
+                            
+            watchist.Movies.Remove(movie);
+
+            this.data.SaveChanges();
+
             return movie.Id;
         }
     }
