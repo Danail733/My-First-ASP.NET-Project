@@ -1,8 +1,10 @@
 ﻿namespace MyMoviesProject.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using MyMoviesProject.Models.Directors;
     using MyMoviesProject.Services.Directors;
+    using static WebConstants;
 
     public class DirectorsController : Controller
     {   
@@ -15,6 +17,7 @@
             => View();
 
         [HttpPost]
+        [Authorize(Roles =administratorRoleName)]
         public IActionResult Add(DirectorFormModel director)
         {
             if (this.directors.IsDirectorExists(director.Name))

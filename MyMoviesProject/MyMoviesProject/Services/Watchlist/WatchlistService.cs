@@ -16,6 +16,11 @@
 
         public IEnumerable<MovieServiceModel> Listing(string userId)
         {
+            if (!this.data.Watchlists.Where(w => w.UserId == userId).Any())
+            {
+                return new List<MovieServiceModel>();
+            }
+
             var moviesData = this.data.Watchlists.Where(w => w.UserId == userId)
                 .Include(w => w.Movies)
                 .Select(w => w.Movies).FirstOrDefault();

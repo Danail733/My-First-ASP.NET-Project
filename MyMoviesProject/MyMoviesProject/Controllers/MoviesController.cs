@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Mvc;
     using MyMoviesProject.Models.Movies;
     using MyMoviesProject.Services.Movies;
+    using static WebConstants;
 
     public class MoviesController : Controller
     {
@@ -12,6 +13,7 @@
         public MoviesController(IMovieService movies)
             => this.movies = movies;
 
+        [Authorize(Roles =administratorRoleName)]
         public IActionResult Add()
         {
             return View(new MovieFormModel

@@ -1,8 +1,10 @@
 ﻿namespace MyMoviesProject.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using MyMoviesProject.Models.Actors;
     using MyMoviesProject.Services.Actors;
+    using static WebConstants;
 
     public class ActorsController : Controller
     {
@@ -15,6 +17,7 @@
             => View();
 
         [HttpPost]
+        [Authorize(Roles =administratorRoleName)]
         public IActionResult Add(ActorFormModel actor)
         {
             if (this.actors.IsActorExist(actor.Name))
