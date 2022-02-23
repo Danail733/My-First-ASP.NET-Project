@@ -67,6 +67,7 @@
             return View(query);
         }
 
+        [Authorize(Roles = administratorRoleName)]
         public IActionResult Edit(int id)
         {
             var movie = this.movies.Details(id);
@@ -116,6 +117,14 @@
                 movie.DirectorId, movie.ActorsIds, movie.Storyline);  
                   
             return RedirectToAction("All", "Movies");
-        }     
+        }
+
+        [Authorize(Roles = administratorRoleName)]
+        public IActionResult Remove(int id)
+        {
+            this.movies.Remove(id);
+
+            return RedirectToAction("All");
+        }
     }
 }

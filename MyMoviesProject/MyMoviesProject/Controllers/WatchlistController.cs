@@ -21,6 +21,7 @@
             {
                 return BadRequest();
             }
+
             var model = this.watchlist.Listing(userId);
             return View(model);
         }
@@ -33,6 +34,7 @@
             {
                 return BadRequest();
             }
+
             this.watchlist.Add(id, userId);
             return RedirectToAction("Movies", "Watchlist");
         }
@@ -45,10 +47,10 @@
             {
                 return BadRequest();
             }
+
             this.watchlist.Remove(id, userId);
             return RedirectToAction("Movies");
             
-        }
-    
+        }  
     }
 }

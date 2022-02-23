@@ -1,6 +1,4 @@
-﻿
-
-@foreach (var movie in Model)
+﻿@foreach (var movie in Model)
 {
 <div class="col-md-auto col-sm-auto col-lg-auto">
     <div class="card" style="width: 12rem;">
@@ -8,13 +6,17 @@
         <div class="card-body text-center">
             <h5 class="card-title">@movie.Name (@movie.Year)</h5>
             <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-primary">More</a>
-            @if (ViewData["Title"].ToString() == "Welcome")
+            @if (ViewData["Title"].ToString() == "Welcome" && !User.IsInRole(WebConstants.administratorRoleName))
             {
                 <a asp-controller="Watchlist" asp-action="Add" asp-route-id="@movie.Id" class="btn btn-outline-secondary">Add to watchlist</a>
             }
+            else if (User.IsInRole(WebConstants.administratorRoleName) && ViewData["Title"].ToString() == "Welcome")
+            { 
+                <a asp-controller="Movies" asp-action="Remove" asp-route-id="@movie.Id" class="btn btn-danger" onclick="return confirm('Are you sure want to delete @movie.Name')">Remove</a>
+            }
             else
             { 
-                <a asp-controller="Watchlist" asp-action="Remove" asp-route-id="@movie.Id" class="btn btn-danger">Remove</a>
+                <a asp-controller="Watchlist" asp-action="Remove" asp-route-id="@movie.Id" class="btn btn-danger" onclick="return confirm('Are you sure want to delete @movie.Name')">Remove</a>
             }
         </div>
     </div>

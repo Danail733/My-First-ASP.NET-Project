@@ -10,14 +10,14 @@
     {
         private readonly IActorService actors;
 
-        public ActorsController(IActorService actors) 
+        public ActorsController(IActorService actors)
             => this.actors = actors;
 
-        public IActionResult Add() 
+        public IActionResult Add()
             => View();
 
         [HttpPost]
-        [Authorize(Roles =administratorRoleName)]
+        [Authorize(Roles = administratorRoleName)]
         public IActionResult Add(ActorFormModel actor)
         {
             if (this.actors.IsActorExist(actor.Name))

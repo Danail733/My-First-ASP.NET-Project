@@ -40,19 +40,19 @@
                     ImageUrl = movie.ImageUrl,
                 };
 
-                movies.Add(movieResult);               
+                movies.Add(movieResult);
             }
             return movies;
         }
 
         public int Add(int id, string userId)
-        {          
+        {
             var movie = this.data.Movies.Where(m => m.Id == id).FirstOrDefault();
 
-            var watchlistData = this.data.Watchlists.Include(w=>w.Movies)
+            var watchlistData = this.data.Watchlists.Include(w => w.Movies)
                 .Where(w => w.UserId == userId)
                 .FirstOrDefault();
-            if (watchlistData==null)
+            if (watchlistData == null)
             {
                 var movies = new List<Movie>();
                 movies.Add(movie);
@@ -80,7 +80,7 @@
 
             var watchist = this.data.Watchlists.Where(w => w.UserId == userId)
                 .Include(w => w.Movies).FirstOrDefault();
-                            
+
             watchist.Movies.Remove(movie);
 
             this.data.SaveChanges();

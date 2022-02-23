@@ -32,6 +32,7 @@
 
         public bool isIdValid(int id);
 
+        public int Remove(int id);
 
     }
 }

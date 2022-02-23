@@ -137,9 +137,39 @@
 
             this.data.SaveChanges();
         }
+
+        public int Remove(int id)
+        {
+            var movie = this.data.Movies.FirstOrDefault(m => m.Id == id);
+
+            foreach (var ma in this.data.MovieActors)
+            {
+                if(ma.MovieId == id)
+                {
+                    this.data.MovieActors.Remove(ma);
+                }
+            }
+
+            foreach (var mg in this.data.MovieGenres)
+            {
+                if (mg.MovieId == id)
+                {
+                    this.data.MovieGenres.Remove(mg);
+                }
+            }
+
+            this.data.SaveChanges();
+
+            this.data.Movies.Remove(movie);
+
+            this.data.SaveChanges();
+
+            return movie.Id;
+        
+        }
+
         public bool IsMovieExists(string name) =>
             name != null ? this.data.Movies.Any(m => m.Name.ToLower() == name.ToLower()) : false;
-
 
         public bool isIdValid(int id)
             => this.data.Movies.Any(m => m.Id == id);

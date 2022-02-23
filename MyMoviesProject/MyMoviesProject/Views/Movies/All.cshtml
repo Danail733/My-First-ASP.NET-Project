@@ -33,8 +33,15 @@
                 <div class="card-body text-center">
                     <h5 class="card-title">@movie.Name (@movie.Year)</h5>
                     <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-info">More</a>
-                    <a asp-controller="Movies" asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-outline-secondary">Edit</a>
-                    <a asp-controller="Watchlist" asp-action="Add" asp-route-id="@movie.Id" class="btn btn-outline-secondary">Add to watchlist</a>
+                    @if (User.IsInRole(WebConstants.administratorRoleName))
+                    {
+                        <a asp-controller="Movies" asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-outline-secondary">Edit</a>
+                        <a asp-controller="Movies" asp-action="Remove" asp-route-id="@movie.Id" class="btn btn-danger" onclick="return confirm('Are you sure want to delete @movie.Name')">Remove</a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Watchlist" asp-action="Add" asp-route-id="@movie.Id" class="btn btn-outline-secondary">Add to watchlist</a>
+                    }
                 </div>
             </div>
         </div>
