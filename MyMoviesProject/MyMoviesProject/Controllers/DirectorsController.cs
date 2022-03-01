@@ -35,5 +35,12 @@
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult All()
+        {
+            var directors = this.directors.GetAll();
+
+            return View(directors);
+        }
+
     }
 }

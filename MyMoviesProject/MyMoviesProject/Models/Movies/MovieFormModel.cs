@@ -35,7 +35,7 @@
         public IEnumerable<MovieActorsServiceModel> Actors { get; set; }
 
         [Required]
-        [StringLength(StorylineMaxValue, MinimumLength =StorylineMinValue)]
+        [StringLength(StorylineMaxValue, MinimumLength = StorylineMinValue)]
         public string Storyline { get; init; }
     }
 }

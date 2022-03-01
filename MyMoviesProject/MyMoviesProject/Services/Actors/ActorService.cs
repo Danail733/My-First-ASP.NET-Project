@@ -2,6 +2,8 @@
 {
     using MyMoviesProject.Data;
     using MyMoviesProject.Data.Models;
+    using MyMoviesProject.Models.Actors;
+    using System.Collections.Generic;
     using System.Linq;
 
     public class ActorService : IActorService
@@ -26,6 +28,15 @@
             return actor.Id;
         }
 
+        public IEnumerable<ActorListingViewModel> GetAll()
+            => this.data.Actors.Select(a => new ActorListingViewModel
+            {
+                Id = a.Id,
+                Name = a.Name,
+                ImageUrl = a.ImageUrl
+            }).OrderBy(a => a.Name.Trim())
+            .ToList();
+       
         public bool IsActorExist(string name)
             => name != null ? this.data.Actors.Any(a => a.Name.ToLower() == name.ToLower())
             : false;

@@ -12,12 +12,15 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="GenresIds"></label>
-                    <select asp-for="GenresIds" class="form-select " multiple>
-                        @foreach (var genre in Model.Genres)
-                        {
-                        <option value="@genre.Id">@genre.Name</option>
-                        }
-                    </select>
+                    <div class="row">
+                        <select asp-for="GenresIds" class="selectpicker custom" multiple data-live-search="true">
+                            @foreach (var genre in Model.Genres)
+                            {
+                                <option value="@genre.Id">@genre.Name</option>
+                            }
+                        </select>
+                    </div>
+                   
                     <span asp-validation-for="GenresIds" class="small text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -35,7 +38,7 @@
                     <select asp-for="DirectorId" class="form-select">
                         @foreach (var director in Model.Directors)
                         {
-                        <option value="@director.Id">@director.Name</option>
+                            <option value="@director.Id">@director.Name</option>
                         }
                     </select>
                     <span asp-validation-for="DirectorId" class="small text-danger"></span>
@@ -45,7 +48,7 @@
                     <select asp-for="ActorsIds" class="form-select" multiple>
                         @foreach (var actor in Model.Actors)
                         {
-                        <option value="@actor.Id">@actor.Name</option>
+                            <option value="@actor.Id">@actor.Name</option>
                         }
                     </select>
                     <span asp-validation-for="ActorsIds" class="small text-danger"></span>
@@ -62,3 +65,4 @@
         </div>
     </div>
 </div>
+
