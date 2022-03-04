@@ -16,6 +16,10 @@
 
         public int CurrentPage { get; set; } = 1;
 
+        public string Genre { get; set; }
+
+        public IEnumerable<MovieGenresServiceModel> Genres { get; set; }
+
         public int TotalMovies { get; set; }
 
         public IEnumerable<MovieServiceModel> Movies { get; set; }

@@ -9,7 +9,7 @@
             int directorId, int[] actorsIds, string storyline);
 
         public MovieQueryServiceModel ListAllMovies(string searchTerm,
-    MovieSorting sorting, int currentPage);
+    MovieSorting sorting, string genre, int currentPage);
 
         public MovieDetailsServiceModel Details(int id);
 

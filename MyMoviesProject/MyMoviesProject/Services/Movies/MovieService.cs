@@ -53,7 +53,7 @@
         }
 
         public MovieQueryServiceModel ListAllMovies(string searchTerm,
-           MovieSorting sorting, int currentPage)
+           MovieSorting sorting, string genre, int currentPage)
         {
             var moviesQuery = this.data.Movies.AsQueryable();
 
@@ -61,6 +61,14 @@
             {
                 moviesQuery = moviesQuery.Where(m => m.Name.ToLower()
                   .Contains(searchTerm.ToLower()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(genre))
+            {
+                moviesQuery = moviesQuery
+                    .SelectMany(m => m.MovieGenres.Select(g => g.Genre),
+                    (m, g) => new { Movie = m, Genre = g })
+                     .Where( m => m.Genre.Name == genre).Select(m => m.Movie);                
             }
 
             moviesQuery = sorting switch

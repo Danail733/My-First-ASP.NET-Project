@@ -1,7 +1,5 @@
 ﻿namespace MyMoviesProject.Services.Movies
 {
-    using System.ComponentModel.DataAnnotations;
-
     public class MovieDetailsServiceModel :MovieServiceModel
     {
         public int[] GenresIds { get; set; }

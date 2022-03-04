@@ -35,8 +35,13 @@
                 return BadRequest();
             }
 
-            this.watchlist.Add(id, userId);
+            if(this.watchlist.Add(id, userId) == 0)
+            {
+                return BadRequest();
+            }
+
             return RedirectToAction("Movies", "Watchlist");
+           
         }
 
         [Authorize]
@@ -48,7 +53,12 @@
                 return BadRequest();
             }
 
-            this.watchlist.Remove(id, userId);
+           
+            if(this.watchlist.Remove(id, userId) == 0)
+            {
+                return BadRequest();
+            }
+
             return RedirectToAction("Movies");
             
         }  

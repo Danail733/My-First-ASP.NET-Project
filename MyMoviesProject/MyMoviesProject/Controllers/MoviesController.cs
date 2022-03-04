@@ -58,11 +58,12 @@
 
         public IActionResult All([FromQuery] AllMoviesQueryModel query)
         {
-            var queryResult = this.movies.ListAllMovies(query.SearchTerm, query.Sorting,
+            var queryResult = this.movies.ListAllMovies(query.SearchTerm, query.Sorting, query.Genre,
                 query.CurrentPage);
 
             query.Movies = queryResult.Movies;
             query.TotalMovies = queryResult.TotalMovies;
+            query.Genres = this.movies.AllGenres();
 
             return View(query);
         }

@@ -15,40 +15,60 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Movies for everyone</a>
+                @*<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Movies for everyone</a>*@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="btn-group">
+                    <a class="btn btn-outline-secondary btn-lg" asp-controller="Home" asp-action="Index">
+                        Movies for everyone
+                    </a>
+                    <button type="button" class="btn btn-lg btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="visually-hidden">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                         @if (User.IsInRole(WebConstants.administratorRoleName))
                         {
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Directors" asp-action="Add">Add Director</a>
-            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Actors" asp-action="Add">Add Actor</a>
-                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link text-dark" asp-area="" asp-controller="Movies" asp-action="Add">Add Movie</a>
-                                            </li>
-                                            }
-                        <li class="nav-item">
+                   <li class="nav-item dropdown-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Directors" asp-action="Add">Add Director</a>
+                   </li>
+                                <li class=" dropdown-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Actors" asp-action="Add">Add Actor</a>
+                                </li>
+                                                <li class="dropdown-item">
+                                                    <a class="nav-link text-dark" asp-area="" asp-controller="Movies" asp-action="Add">Add Movie</a>
+                                                </li>}
+                        <li class="dropdown-item">
                             <a class="nav-link text-dark" asp-controller="Movies" asp-action="All">All Movies</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item dropdown-item">
                             <a class="nav-link text-dark" asp-controller="Actors" asp-action="All">All Actors</a>
+                        </li>
+                        <li class="nav-item dropdown-item">
+                            <a class="nav-link text-dark" asp-controller="Directors" asp-action="All">All Directors</a>
                         </li>
                         @if (!User.IsInRole(WebConstants.administratorRoleName))
                         {
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Watchlist" asp-action="Movies">Watchlist</a>
-            </li>
-}
+                    <li class="nav-item dropdown-item">
+                      <a class="nav-link text-dark" asp-area="" asp-controller="Watchlist" asp-action="Movies">Watchlist</a>
+                    </li> }
                     </ul>
-                    <partial name="_LoginPartial" />
                 </div>
+                @*<div class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        Movies for everyone
+                    </a>
+                    
+
+                    </ul>
+
+                </div>*@
+                <partial name="_LoginPartial" />
+                @*<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">*@
+                @*<ul class="navbar-nav flex-grow-1">*@
+
+                @*</div>*@
             </div>
         </nav>
     </header>

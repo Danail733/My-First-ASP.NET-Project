@@ -25,8 +25,8 @@
                 .Include(w => w.Movies)
                 .Select(w => w.Movies).FirstOrDefault();
 
-            var user = this.data.Watchlists.Where(w => w.UserId == userId)
-                .Select(w => w.User).FirstOrDefault();
+            var user = this.data.Users.Where(u => u.Id == userId)
+                .FirstOrDefault();
 
             var movies = new List<MovieServiceModel>();
 
@@ -42,6 +42,7 @@
 
                 movies.Add(movieResult);
             }
+
             return movies;
         }
 
@@ -60,11 +61,17 @@
                 {
                     UserId = userId,
                     Movies = movies,
-                    User = this.data.Users.Find(userId),
+                    User = this.data.Users.Find(userId)
                 };
                 this.data.Watchlists.Add(watchlist);
                 this.data.SaveChanges();
             }
+
+            else if (watchlistData.Movies.Any(m => m.Id == id))
+            {
+                return 0;
+            }
+
             else
             {
                 watchlistData.Movies.Add(movie);
@@ -81,8 +88,15 @@
             var watchist = this.data.Watchlists.Where(w => w.UserId == userId)
                 .Include(w => w.Movies).FirstOrDefault();
 
-            watchist.Movies.Remove(movie);
-
+            if(watchist.Movies.Any(m => m.Id == id))
+            {
+                watchist.Movies.Remove(movie);
+            }
+            else
+            {
+                return 0;
+            }
+           
             this.data.SaveChanges();
 
             return movie.Id;
