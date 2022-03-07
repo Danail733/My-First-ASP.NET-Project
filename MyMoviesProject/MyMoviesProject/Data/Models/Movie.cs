@@ -30,6 +30,5 @@
         public string Storyline { get; set; }
 
         public IEnumerable<Watchlist> Watchlists { get; set; } = new List<Watchlist>();
-
     }
 }

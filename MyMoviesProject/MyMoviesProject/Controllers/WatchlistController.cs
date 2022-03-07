@@ -37,9 +37,11 @@
 
             if(this.watchlist.Add(id, userId) == 0)
             {
-                return BadRequest();
+                TempData[FailedGlobalMessageKey] = "This movie is already added to your Watchlist!";
+                return RedirectToAction("All", "Movies");
             }
 
+            TempData[SuccessFullGlobalMessageKey] = "This movie wass added to your watchlist succesfully!";
             return RedirectToAction("Movies", "Watchlist");
            
         }
@@ -60,7 +62,6 @@
             }
 
             return RedirectToAction("Movies");
-            
         }  
     }
 }

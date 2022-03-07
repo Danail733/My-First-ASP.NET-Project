@@ -53,6 +53,8 @@
             this.movies.Add(movie.Name, movie.GenresIds, movie.ImageUrl, movie.Year,
                 movie.DirectorId, movie.ActorsIds, movie.Storyline);
 
+            TempData[WebConstants.SuccessFullGlobalMessageKey] = "The movie was edited successfully!";
+
             return RedirectToAction("All", "Movies");
         }
 
@@ -115,7 +117,9 @@
             }
 
             this.movies.Edit(id, movie.Name, movie.ImageUrl, movie.GenresIds, movie.Year,
-                movie.DirectorId, movie.ActorsIds, movie.Storyline);  
+                movie.DirectorId, movie.ActorsIds, movie.Storyline);
+
+            TempData[WebConstants.SuccessFullGlobalMessageKey] = "The movie was edited successfully!";
                   
             return RedirectToAction("All", "Movies");
         }

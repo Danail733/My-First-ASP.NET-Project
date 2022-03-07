@@ -30,15 +30,15 @@
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                         @if (User.IsInRole(WebConstants.administratorRoleName))
                         {
-                   <li class="nav-item dropdown-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Directors" asp-action="Add">Add Director</a>
-                   </li>
-                                <li class=" dropdown-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Actors" asp-action="Add">Add Actor</a>
-                                </li>
-                                                <li class="dropdown-item">
-                                                    <a class="nav-link text-dark" asp-area="" asp-controller="Movies" asp-action="Add">Add Movie</a>
-                                                </li>}
+            <li class="nav-item dropdown-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Directors" asp-action="Add">Add Director</a>
+            </li>
+                            <li class=" dropdown-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Actors" asp-action="Add">Add Actor</a>
+                            </li>
+                                            <li class="dropdown-item">
+                                                <a class="nav-link text-dark" asp-area="" asp-controller="Movies" asp-action="Add">Add Movie</a>
+                                            </li>}
                         <li class="dropdown-item">
                             <a class="nav-link text-dark" asp-controller="Movies" asp-action="All">All Movies</a>
                         </li>
@@ -50,20 +50,20 @@
                         </li>
                         @if (!User.IsInRole(WebConstants.administratorRoleName))
                         {
-                    <li class="nav-item dropdown-item">
-                      <a class="nav-link text-dark" asp-area="" asp-controller="Watchlist" asp-action="Movies">Watchlist</a>
-                    </li> }
+            <li class="nav-item dropdown-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Watchlist" asp-action="Movies">Watchlist</a>
+            </li>}
                     </ul>
                 </div>
                 @*<div class="dropdown">
-                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                        Movies for everyone
-                    </a>
-                    
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                Movies for everyone
+            </a>
 
-                    </ul>
 
-                </div>*@
+            </ul>
+
+        </div>*@
                 <partial name="_LoginPartial" />
                 @*<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">*@
                 @*<ul class="navbar-nav flex-grow-1">*@
@@ -73,6 +73,18 @@
         </nav>
     </header>
     <div class="container">
+
+        @if (TempData.ContainsKey(WebConstants.SuccessFullGlobalMessageKey))
+        {
+    <div class="alert alert-success" role="alert">
+        @TempData[WebConstants.SuccessFullGlobalMessageKey]
+    </div>}
+        @if (TempData.ContainsKey(WebConstants.FailedGlobalMessageKey))
+        {
+    <div class="alert alert-danger" role="alert">
+        @TempData[WebConstants.FailedGlobalMessageKey]
+    </div>}
+
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -92,5 +104,6 @@
 
 
     @await RenderSectionAsync("Scripts", required: false)
+   
 </body>
 </html>

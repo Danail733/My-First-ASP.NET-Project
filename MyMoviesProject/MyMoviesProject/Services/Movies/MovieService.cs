@@ -192,8 +192,8 @@
 
         public bool GenreExists(int[] genreIds)
         {
-            var allIds = this.data.Genres.Select(g => g.Id).ToArray();
-            genreIds = allIds;
+            //var allIds = this.data.Genres.Select(g => g.Id).ToArray();
+            //genreIds = allIds;
 
             foreach (var genreId in genreIds)
             {

@@ -53,16 +53,19 @@
             var watchlistData = this.data.Watchlists.Include(w => w.Movies)
                 .Where(w => w.UserId == userId)
                 .FirstOrDefault();
+
             if (watchlistData == null)
             {
                 var movies = new List<Movie>();
                 movies.Add(movie);
+
                 var watchlist = new Watchlist()
                 {
                     UserId = userId,
                     Movies = movies,
                     User = this.data.Users.Find(userId)
                 };
+
                 this.data.Watchlists.Add(watchlist);
                 this.data.SaveChanges();
             }

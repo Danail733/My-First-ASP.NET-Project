@@ -9,15 +9,15 @@
             @if (ViewData["Title"].ToString() == "Welcome" && !User.IsInRole(WebConstants.administratorRoleName))
             {
         <a asp-controller="Watchlist" asp-action="Add" asp-route-id="@movie.Id" class="btn btn-outline-secondary" onclick="return confirm('Are you sure want to add @movie.Name to your Watchlist?')">Add to watchlist</a> }
-                        else if (User.IsInRole(WebConstants.administratorRoleName))
-                        {
-                            <a asp-controller="Movies" asp-action="Remove" asp-route-id="@movie.Id" class="btn btn-danger" onclick="return confirm('Are you sure want to delete @movie.Name')">Remove</a>
-                            <a asp-controller="Movies" asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-outline-secondary">Edit</a>
-                        }
-                        else
-                        {
-                            <a asp-controller="Watchlist" asp-action="Remove" asp-route-id="@movie.Id" class="btn btn-danger" onclick="return confirm('Are you sure want to delete @movie.Name?')">Remove</a>
-                        }
+          else if (User.IsInRole(WebConstants.administratorRoleName))
+          {
+            <a asp-controller="Movies" asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-outline-secondary">Edit</a>
+            <a asp-controller="Movies" asp-action="Remove" asp-route-id="@movie.Id" class="btn btn-danger" onclick="return confirm('Are you sure want to delete @movie.Name')">Remove</a>
+          }
+       else if(ViewData["Title"].ToString() == "Watchlist")
+       {
+       <a asp-controller="Watchlist" asp-action="Remove" asp-route-id="@movie.Id" class="btn btn-danger" onclick="return confirm('Are you sure want to delete @movie.Name?')">Remove</a>
+       }
         </div>
     </div>
 </div>}
