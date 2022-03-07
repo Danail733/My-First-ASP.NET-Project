@@ -17,6 +17,7 @@
         public IActionResult Movies()
         {           
             var userId = this.User.Id();
+
             if (User.IsAdmin())
             {
                 return BadRequest();
@@ -55,7 +56,6 @@
                 return BadRequest();
             }
 
-           
             if(this.watchlist.Remove(id, userId) == 0)
             {
                 return BadRequest();

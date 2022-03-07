@@ -73,7 +73,7 @@
         [Authorize(Roles = administratorRoleName)]
         public IActionResult Edit(int id)
         {
-            var movie = this.movies.Details(id);
+            var movie = this.movies.FormDetails(id);
 
             return View(new MovieFormModel
             {
@@ -130,6 +130,13 @@
             this.movies.Remove(id);
 
             return RedirectToAction("All");
+        }
+
+        public IActionResult Details(int id)
+        {
+            var movies = this.movies.Details(id);
+
+            return View(movies);
         }
     }
 }

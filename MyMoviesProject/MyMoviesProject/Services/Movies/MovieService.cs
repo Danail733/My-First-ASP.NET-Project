@@ -6,6 +6,7 @@
     using MyMoviesProject.Data;
     using MyMoviesProject.Data.Models;
     using MyMoviesProject.Models.Movies;
+    using MyMoviesProject.Services.Actors;
 
     public class MovieService : IMovieService
     {
@@ -91,12 +92,12 @@
             };
         }
 
-        public MovieDetailsServiceModel Details(int id)
+        public MovieDetailsServiceModel FormDetails(int id)
         {
-            var movieDetails = this.data.Movies.Where(m => m.Id == id)
-                .Include(m => m.MovieActors).Include(m => m.MovieGenres)
+            var movieDetails = this.data.Movies.Where(m => m.Id == id)            
              .Select(m => new MovieDetailsServiceModel
              {
+                 Id=m.Id,
                  Name = m.Name,
                  Year = m.Year,
                  ImageUrl = m.ImageUrl,
@@ -173,8 +174,34 @@
             this.data.SaveChanges();
 
             return movie.Id;
-        
         }
+
+        public MovieDetailsViewModel Details(int id)
+            => this.data.Movies.Where(m => m.Id == id)
+            .Select(m => new MovieDetailsViewModel
+            {
+                Id = m.Id,
+                Name = m.Name,
+                Year = m.Year,
+                ImageUrl = m.ImageUrl,
+                Director = new MovieDirectorServiceModel
+                {
+                    Id = m.DirectorId,
+                    Name = m.Director.Name
+                },
+                Storyline = m.Storyline,
+                Actors = m.MovieActors.Select(ma => new ActorServiceModel
+                {
+                    Id = ma.ActorId,
+                    Name = ma.Actor.Name,
+                    ImageUrl = ma.Actor.ImageUrl
+                }).ToList(),
+                Genres = m.MovieGenres.Select(mg => new MovieGenresServiceModel
+                {
+                    Id = mg.GenreId,
+                    Name = mg.Genre.Name
+                }).ToList()
+            }).FirstOrDefault();
 
         public bool IsMovieExists(string name) =>
             name != null ? this.data.Movies.Any(m => m.Name.ToLower() == name.ToLower()) : false;

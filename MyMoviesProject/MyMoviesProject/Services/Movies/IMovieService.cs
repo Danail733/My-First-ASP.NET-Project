@@ -11,10 +11,12 @@
         public MovieQueryServiceModel ListAllMovies(string searchTerm,
     MovieSorting sorting, string genre, int currentPage);
 
-        public MovieDetailsServiceModel Details(int id);
+        public MovieDetailsServiceModel FormDetails(int id);
 
         public void Edit(int id, string name, string imageUrl, int[] genresIds, int year,
             int directorId, int[] actorsIds, string storyline);
+
+        public MovieDetailsViewModel Details(int id);
 
         public IEnumerable<MovieGenresServiceModel> AllGenres();
 
