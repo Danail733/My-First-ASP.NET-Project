@@ -32,14 +32,21 @@
 
             this.directors.Add(director.Name, director.Biography, director.ImageUrl);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("All");
         }
 
-        public IActionResult All()
+        public IActionResult All(int currentPage)
         {
-            var directors = this.directors.GetAll();
+            var query = this.directors.ListAll(currentPage);
 
-            return View(directors);
+            return View(query);
+        }
+
+        public IActionResult Details(int id)
+        {
+            var director = this.directors.Details(id);
+
+            return View(director);
         }
 
     }

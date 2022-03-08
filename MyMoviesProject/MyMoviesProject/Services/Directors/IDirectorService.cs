@@ -9,6 +9,10 @@
 
         public bool IsDirectorExists(string name);
 
-        public IEnumerable<DirectorListingViewModel> GetAll();
+        public DirectorServiceModel Details(int id);
+
+        public DirectorQueryServiceModel ListAll(int currentPage);
+
+        public IEnumerable<DirectorListingServiceModel> GetAll();
     }
 }

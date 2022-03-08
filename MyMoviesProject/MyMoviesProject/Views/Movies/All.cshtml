@@ -5,7 +5,6 @@
     ViewBag.Title = "All Movies";
 }
 
-
 <form method="get" class="myForm">
     <div class="row mb-3">
         <div class="form-group col-md-2">
@@ -45,27 +44,28 @@
     }
 }
 <div class="row">
-    @foreach (var movie in Model.Movies)
-    {
-        <div class="col-md-auto col-sm-auto col-lg-auto col-xl-auto">
-            <div class="card" style="width: 12rem;">
-                <img src="@movie.ImageUrl" class="card-img-top" alt="@movie.Name (@movie.Year)">
-                <div class="card-body text-center">
-                    <h5 class="card-title">@movie.Name (@movie.Year)</h5>
-                    <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-primary">More</a>
-                    @if (User.IsInRole(WebConstants.administratorRoleName))
-                    {
-                        <a asp-controller="Movies" asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-outline-secondary">Edit</a>
-                        <a asp-controller="Movies" asp-action="Remove" asp-route-id="@movie.Id" class="btn btn-danger" onclick="return confirm('Are you sure want to delete @movie.Name?')">Remove</a>
-                    }
-                    else
-                    {
-                        <a asp-controller="Watchlist" asp-action="Add" asp-route-id="@movie.Id" class="btn btn-outline-secondary" onclick="return confirm('Are you sure want to add @movie.Name to your Watchlist?')">Add to watchlist</a>
-                    }
+    @*@foreach (var movie in Model.Movies)
+    {*@
+        <partial name="_MovieListingPartial" model="@Model.Movies" />
+        @*<div class="col-md-auto col-sm-auto col-lg-auto col-xl-auto mb-3">
+                <div class="card" style="width: 12rem;">
+                    <img src="@movie.ImageUrl" class="card-img-top" alt="@movie.Name (@movie.Year)">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">@movie.Name (@movie.Year)</h5>
+                        <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-primary">More</a>
+                        @if (User.IsInRole(WebConstants.administratorRoleName))
+                        {
+                            <a asp-controller="Movies" asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-outline-secondary">Edit</a>
+                            <a asp-controller="Movies" asp-action="Remove" asp-route-id="@movie.Id" class="btn btn-danger" onclick="return confirm('Are you sure want to delete @movie.Name?')">Remove</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Watchlist" asp-action="Add" asp-route-id="@movie.Id" class="btn btn-outline-secondary" onclick="return confirm('Are you sure want to add @movie.Name to your Watchlist?')">Add to watchlist</a>
+                        }
+                    </div>
                 </div>
-            </div>
-        </div>
-    }
+            </div>*@
+    @*}*@
 </div>
 
 @{

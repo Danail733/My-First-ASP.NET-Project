@@ -134,9 +134,9 @@
 
         public IActionResult Details(int id)
         {
-            var movies = this.movies.Details(id);
+            var movie = this.movies.Details(id);
 
-            return View(movies);
+            return View(movie);
         }
     }
 }

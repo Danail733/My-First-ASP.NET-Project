@@ -1,15 +1,3 @@
 ﻿@model IEnumerable<ActorListingViewModel>
 
-<div class="row">
-    @foreach (var actor in Model)
-    {
-        <div class="col-md-auto col-sm-auto col-lg-auto col-xl-auto">
-            <div class="card" style="width: 10rem;">
-                <img src="@actor.ImageUrl" class="card-img-top" alt="@actor.Name">
-                <div class="card-body text-center">
-                    <a asp-controller="Actors" asp-action="Details" asp-route-id="@actor.Id"><h5 class="card-title">@actor.Name</h5></a>
-                </div>
-            </div>
-        </div>
-    }
-</div>
+<partial name="_PersonListingPartial" model="@Model" />

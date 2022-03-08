@@ -32,7 +32,7 @@
 
             this.actors.Add(actor.Name, actor.Biography, actor.ImageUrl);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("All");
         }
 
         public IActionResult All()
@@ -40,6 +40,13 @@
             var actors = this.actors.GetAll();
 
             return View(actors);
+        }
+
+        public IActionResult Details(int id)
+        {
+            var actor = this.actors.Details(id);
+
+            return View(actor);
         }
     }
 }

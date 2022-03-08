@@ -45,7 +45,7 @@
                 <div class="form-group">
                     <label asp-for="ActorsIds"></label>
                     <div class="row">
-                        <select asp-for="ActorsIds" class="selectpicker" multiple data-live-search="true">
+                        <select asp-for="ActorsIds" class="selectpicker" multiple datwa-live-search="true">
                             @foreach (var actor in Model.Actors)
                             {
                                 <option value="@actor.Id">@actor.Name</option>

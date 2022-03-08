@@ -29,14 +29,36 @@
 
         }
 
-        public IEnumerable<DirectorListingViewModel> GetAll()
-             => this.data.Directors.Select(d => new DirectorListingViewModel
+        public DirectorQueryServiceModel ListAll(int currentPage)
+        {
+            var directors = this.GetAll().Skip((currentPage - 1) * DirectorQueryServiceModel.DirectorsPerPage)
+                .Take(DirectorQueryServiceModel.DirectorsPerPage).ToList();
+
+            return new DirectorQueryServiceModel
+            {
+                TotalDirectors = this.data.Directors.Count(),
+                CurrentPage = currentPage,
+                Directors = directors
+            };
+        }
+
+        public IEnumerable<DirectorListingServiceModel> GetAll()
+             => this.data.Directors.Select(d => new DirectorListingServiceModel
              {
                  Id = d.Id,
                  Name = d.Name,
                  ImageUrl = d.ImageUrl
-             }).OrderBy(d => d.Name)
+             })
             .ToList();
+
+        public DirectorServiceModel Details(int id)
+            => this.data.Directors.Select(d => new DirectorServiceModel
+            {
+                Id = d.Id,
+                Name = d.Name,
+                ImageUrl = d.ImageUrl,
+                Biography = d.Biography
+            }).FirstOrDefault(d => d.Id == id);
 
         public bool IsDirectorExists(string name)
             => name != null ? this.data.Directors.Any(d => d.Name.ToLower() == name.ToLower())

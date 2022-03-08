@@ -36,6 +36,15 @@
                 ImageUrl = a.ImageUrl
             }).OrderBy(a => a.Name.Trim())
             .ToList();
+
+        public ActorServiceModel Details(int id)
+            => this.data.Actors.Select(a => new ActorServiceModel
+            {
+                Id = a.Id,
+                Name = a.Name,
+                ImageUrl = a.ImageUrl,
+                Biography = a.Biography
+            }).FirstOrDefault(a => a.Id == id);
        
         public bool IsActorExist(string name)
             => name != null ? this.data.Actors.Any(a => a.Name.ToLower() == name.ToLower())

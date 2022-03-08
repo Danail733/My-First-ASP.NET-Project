@@ -42,7 +42,7 @@
                 return RedirectToAction("All", "Movies");
             }
 
-            TempData[SuccessFullGlobalMessageKey] = "This movie wass added to your watchlist succesfully!";
+            TempData[SuccessFullGlobalMessageKey] = "This movie was added to your watchlist!";
             return RedirectToAction("Movies", "Watchlist");
            
         }
@@ -61,6 +61,7 @@
                 return BadRequest();
             }
 
+            TempData[SuccessFullGlobalMessageKey] = "This movie was removed from your watchlist!";
             return RedirectToAction("Movies");
         }  
     }

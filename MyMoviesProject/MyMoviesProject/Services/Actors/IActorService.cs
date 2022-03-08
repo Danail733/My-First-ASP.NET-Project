@@ -7,8 +7,10 @@
     {
         public int Add(string name, string biography, string imageUrl);
 
-        public bool IsActorExist(string name);
-
         public IEnumerable<ActorListingViewModel> GetAll();
+
+        public ActorServiceModel Details(int id);
+
+        public bool IsActorExist(string name);
     }
 }

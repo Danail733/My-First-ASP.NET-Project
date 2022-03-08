@@ -1,18 +1,39 @@
-﻿@model IEnumerable<DirectorListingViewModel>
+﻿@model DirectorQueryServiceModel
+
+<partial name="_PersonListingPartial" model="@Model.Directors" />
+
+@{
+    var previousPage = Model.CurrentPage - 1;
+    var nextPage = Model.CurrentPage + 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)Model.TotalDirectors / DirectorQueryServiceModel.DirectorsPerPage);
+
+    var shouldButtonBeDisabled = Model.CurrentPage == maxPage || !Model.Directors.Any();
+
+}
 
 <div class="row">
-    @foreach (var director in Model)
-    {
-        <div class="col-md-auto col-sm-auto col-lg-auto col-xl-auto">
-            <div class="card" style="width: 10rem;">
-                <img src="@director.ImageUrl" class="card-img-top" alt="@director.Name">
-                <div class="card-body text-center">
-                    <a asp-controller="Directors" asp-action="Details" asp-route-id="@director.Id"><h5 class="card-title">@director.Name</h5></a>
-                </div>
-            </div>
-        </div>
-    }
+    <div class="col-md-6">
+        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty) mt-5"
+           asp-controller="Directors"
+           asp-action="All"
+            asp-route-currentPage="@previousPage"
+           ><<</a>
+    </div>
+
+    <div class="col-md-6">
+        <a class="btn btn-primary float-right @(shouldButtonBeDisabled ? "disabled" : string.Empty) mt-5"
+           asp-controller="Directors"
+           asp-action="All" 
+           asp-route-currentPage="@nextPage">>></a>
+
+    </div>
 </div>
 
-    
+
+
 
