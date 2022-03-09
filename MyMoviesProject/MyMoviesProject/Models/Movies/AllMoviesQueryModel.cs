@@ -12,7 +12,7 @@
         [Display(Name ="Sort by")]
         public MovieSorting Sorting { get; init; }
 
-        public const int MoviesPerPage = 8;
+        public const int MoviesPerPage = 10;
 
         public int CurrentPage { get; set; } = 1;
 

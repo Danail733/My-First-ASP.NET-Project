@@ -2,7 +2,6 @@
 {
     using MyMoviesProject.Data;
     using MyMoviesProject.Data.Models;
-    using MyMoviesProject.Models.Directors;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -26,7 +25,6 @@
             this.data.SaveChanges();
 
             return director.Id;
-
         }
 
         public DirectorQueryServiceModel ListAll(int currentPage)
@@ -34,12 +32,19 @@
             var directors = this.GetAll().Skip((currentPage - 1) * DirectorQueryServiceModel.DirectorsPerPage)
                 .Take(DirectorQueryServiceModel.DirectorsPerPage).ToList();
 
-            return new DirectorQueryServiceModel
+            var result = new DirectorQueryServiceModel
             {
                 TotalDirectors = this.data.Directors.Count(),
                 CurrentPage = currentPage,
                 Directors = directors
             };
+
+            if(result.CurrentPage == 0)
+            {
+                result.CurrentPage = 1;
+            }
+
+            return result;
         }
 
         public IEnumerable<DirectorListingServiceModel> GetAll()
@@ -49,6 +54,7 @@
                  Name = d.Name,
                  ImageUrl = d.ImageUrl
              })
+            .OrderBy(d => d.Name)
             .ToList();
 
         public DirectorServiceModel Details(int id)

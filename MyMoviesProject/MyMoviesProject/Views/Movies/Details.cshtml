@@ -1,0 +1,54 @@
+﻿@model MovieDetailsViewModel
+
+@{
+    int genreCount = 0;
+}
+<div class="container">
+    <div class="row">
+        <h1 class="mb-3">@Model.Name</h1>
+        <div class="col-md-5">
+            <img src="@Model.ImageUrl" class="img-fluid">
+        </div>
+        <div class="col-md-6">
+            <div class="row mb-3">
+                <h3>Released: @Model.Year</h3>
+            </div>
+            <h3 class="mb-3">
+                Genres:
+                @foreach (var genre in Model.Genres)
+                {
+                    genreCount++;
+                    @if (genreCount == Model.Genres.Count())
+                    {
+                        <span>@genre.Name</span>
+                    }
+                    else
+                    {
+                        <span>@genre.Name, </span>
+                    }
+                }
+            </h3>
+            <h3 class="mb-3">
+                Director:
+                <a asp-controller="Directors" asp-action="Details" asp-route-id="@Model.Director.Id" class="btn btn-primary">@Model.Director.Name</a>
+            </h3>
+            <h3>Cast:</h3>
+            <div class="row mb-3">
+                @foreach (var actor in Model.Actors)
+                {
+                    <div class="card" style="width: 8rem;">
+                        <a asp-controller="Actors" asp-action="Details" asp-route-id="@actor.Id" class="text-dark">
+                            @actor.Name
+                        </a>
+                        <img src="@actor.ImageUrl" class="card-img-top" alt="@actor.Name">
+                    </div>
+                }
+            </div>
+            <h3>Storyline: </h3>
+            <p>@Model.Storyline</p>
+        </div>
+    </div>
+</div>
+
+
+
