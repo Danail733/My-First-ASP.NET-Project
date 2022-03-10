@@ -1,13 +1,14 @@
 ﻿namespace MyMoviesProject.Services.Actors
 {
-    using MyMoviesProject.Models.Actors;
     using System.Collections.Generic;
 
     public interface IActorService
     {
         public int Add(string name, string biography, string imageUrl);
 
-        public IEnumerable<ActorListingViewModel> GetAll();
+        public ActorQueryServiceModel ListAll(int currentPage);
+
+        public IEnumerable<ActorListingServiceModel> GetAll();
 
         public ActorServiceModel Details(int id);
 

@@ -1,6 +1,6 @@
-﻿namespace MyMoviesProject.Models.Actors
+﻿namespace MyMoviesProject.Services.Actors
 {
-    public class ActorListingViewModel
+    public class ActorListingServiceModel
     {
         public int Id { get; init; }
 

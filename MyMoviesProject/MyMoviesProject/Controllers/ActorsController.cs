@@ -35,9 +35,9 @@
             return RedirectToAction("All");
         }
 
-        public IActionResult All()
+        public IActionResult All(int currentPage)
         {
-            var actors = this.actors.GetAll();
+            var actors = this.actors.ListAll(currentPage);
 
             return View(actors);
         }

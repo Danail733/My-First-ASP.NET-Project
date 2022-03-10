@@ -10,6 +10,6 @@
 
         public const int DirectorsPerPage = 14;
 
-        public IEnumerable<PersonListingViewModel> Directors { get; set; }
+        public IEnumerable<DirectorListingServiceModel> Directors { get; set; }
     }
 }

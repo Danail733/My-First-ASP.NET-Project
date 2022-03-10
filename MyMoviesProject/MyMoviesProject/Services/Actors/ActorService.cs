@@ -2,7 +2,6 @@
 {
     using MyMoviesProject.Data;
     using MyMoviesProject.Data.Models;
-    using MyMoviesProject.Models.Actors;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -28,8 +27,28 @@
             return actor.Id;
         }
 
-        public IEnumerable<ActorListingViewModel> GetAll()
-            => this.data.Actors.Select(a => new ActorListingViewModel
+        public ActorQueryServiceModel ListAll(int currentPage)
+        {
+            var actors = this.GetAll().Skip((currentPage - 1) * ActorQueryServiceModel.ActorsPerPage)
+                .Take(ActorQueryServiceModel.ActorsPerPage).ToList();
+
+            var result = new ActorQueryServiceModel
+            {
+                Actors = actors,
+                TotalActors = this.data.Actors.Count(),
+                CurrentPage = currentPage
+            };
+
+            if(result.CurrentPage == 0)
+            {
+                result.CurrentPage = 1;
+            }
+
+            return result;
+        }
+
+        public IEnumerable<ActorListingServiceModel> GetAll()
+            => this.data.Actors.Select(a => new ActorListingServiceModel
             {
                 Id = a.Id,
                 Name = a.Name,

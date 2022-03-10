@@ -1,3 +1,33 @@
-﻿@model IEnumerable<ActorListingViewModel>
+﻿@model ActorQueryServiceModel
 
-<partial name="_PersonListingPartial" model="@Model" />
+<partial name="_PersonListingPartial" model="@Model.Actors" />
+
+@{
+    var previousPage = Model.CurrentPage - 1;
+    var nextPage = Model.CurrentPage + 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)Model.TotalActors / DirectorQueryServiceModel.DirectorsPerPage);
+
+    var shouldButtonBeDisabled = Model.CurrentPage == maxPage || !Model.Actors.Any();
+
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty) mt-5"
+           asp-controller="Actors"
+           asp-action="All"
+           asp-route-currentPage="@previousPage"><<</a>
+    </div>
+
+    <div class="col-md-6">
+        <a class="btn btn-primary float-right @(shouldButtonBeDisabled ? "disabled" : string.Empty) mt-5"
+           asp-controller="Actors"
+           asp-action="All"
+           asp-route-currentPage="@nextPage">>></a>
+    </div>
+</div>
