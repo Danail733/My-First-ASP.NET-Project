@@ -45,6 +45,8 @@ namespace MyMoviesProject
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<MoviesDbContext>();
 
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddControllersWithViews();
 
             services.AddTransient<IDirectorService, DirectorService>();

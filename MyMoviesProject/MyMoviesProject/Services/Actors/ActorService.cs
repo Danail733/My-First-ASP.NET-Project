@@ -4,14 +4,20 @@
     using MyMoviesProject.Data.Models;
     using System.Collections.Generic;
     using System.Linq;
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
 
     public class ActorService : IActorService
     {
         private readonly MoviesDbContext data;
+        private readonly IMapper mapper;
 
-        public ActorService(MoviesDbContext data)
-            => this.data = data;
-
+        public ActorService(MoviesDbContext data, IMapper mapper)
+        {
+            this.data = data;
+            this.mapper = mapper;
+        }
+            
         public int Add(string name, string biography, string imageUrl)
         {
             var actor = new Actor
@@ -48,22 +54,14 @@
         }
 
         public IEnumerable<ActorListingServiceModel> GetAll()
-            => this.data.Actors.Select(a => new ActorListingServiceModel
-            {
-                Id = a.Id,
-                Name = a.Name,
-                ImageUrl = a.ImageUrl
-            }).OrderBy(a => a.Name.Trim())
+            => this.data.Actors
+            .ProjectTo<ActorListingServiceModel>(this.mapper.ConfigurationProvider)
             .ToList();
 
         public ActorServiceModel Details(int id)
-            => this.data.Actors.Select(a => new ActorServiceModel
-            {
-                Id = a.Id,
-                Name = a.Name,
-                ImageUrl = a.ImageUrl,
-                Biography = a.Biography
-            }).FirstOrDefault(a => a.Id == id);
+            => this.data.Actors
+            .ProjectTo<ActorServiceModel>(this.mapper.ConfigurationProvider)
+             .FirstOrDefault(a => a.Id == id);
        
         public bool IsActorExist(string name)
             => name != null ? this.data.Actors.Any(a => a.Name.ToLower() == name.ToLower())

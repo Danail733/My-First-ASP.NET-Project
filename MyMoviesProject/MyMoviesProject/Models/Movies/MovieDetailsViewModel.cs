@@ -20,7 +20,7 @@
 
         public IEnumerable<MovieGenresServiceModel> Genres { get; set; }
 
-        public IEnumerable<ActorServiceModel> Actors { get; set; }
+        public IEnumerable<ActorListingServiceModel> Actors { get; set; }
 
     }
 }

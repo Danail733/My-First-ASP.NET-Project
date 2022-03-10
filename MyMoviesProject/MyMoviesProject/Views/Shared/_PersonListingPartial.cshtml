@@ -1,11 +1,21 @@
 ﻿<div class="row">
-    @foreach (var director in Model)
+    @foreach (var person in Model)
     {
     <div class="col-md-auto col-sm-auto col-lg-auto col-xl-auto">
         <div class="card" style="width: 8rem;">
-            <img src="@director.ImageUrl" class="card-img-top" alt="@director.Name">
+            <img src="@person.ImageUrl" class="card-img-top" alt="@person.Name">
             <div class="card-body text-center">
-                <a asp-controller="Directors" asp-action="Details" asp-route-id="@director.Id"><h5 class="card-title text-dark">@director.Name</h5></a>
+
+                @{
+                    if (this.ViewData["Title"].ToString() == "All Actors")
+                    {
+                        <a asp-controller="Actors" asp-action="Details" asp-route-id="@person.Id"><h5 class="card-title text-dark">@person.Name</h5></a>
+                    }
+                    else if (this.ViewData["Title"].ToString() == "All Directors")
+                    {
+                        <a asp-controller="Directors" asp-action="Details" asp-route-id="@person.Id"><h5 class="card-title text-dark">@person.Name</h5></a>
+                    }
+                }
             </div>
         </div>
     </div>

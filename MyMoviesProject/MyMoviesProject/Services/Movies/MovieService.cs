@@ -3,17 +3,24 @@
     using System.Collections.Generic;
     using System.Linq;
     using Microsoft.EntityFrameworkCore;
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using MyMoviesProject.Data;
     using MyMoviesProject.Data.Models;
     using MyMoviesProject.Models.Movies;
     using MyMoviesProject.Services.Actors;
+    using MyMoviesProject.Services.Directors;
 
     public class MovieService : IMovieService
     {
         private readonly MoviesDbContext data;
+        private readonly IMapper mapper;
 
-        public MovieService(MoviesDbContext data)
-            => this.data = data;
+        public MovieService(MoviesDbContext data, IMapper mapper)
+        {
+            this.data = data;
+            this.mapper = mapper;
+        } 
 
         public int Add(string name, int[] genresIds, string imageUrl, int year,
             int directorId, int[] actorsIds, string storyline)
@@ -94,7 +101,7 @@
 
         public MovieDetailsServiceModel FormDetails(int id)
         {
-            var movieDetails = this.data.Movies.Where(m => m.Id == id)            
+            var movieDetails = this.data.Movies.Where(m => m.Id == id)
              .Select(m => new MovieDetailsServiceModel
              {
                  Id=m.Id,
@@ -190,7 +197,7 @@
                     Name = m.Director.Name
                 },
                 Storyline = m.Storyline,
-                Actors = m.MovieActors.Select(ma => new ActorServiceModel
+                Actors = m.MovieActors.Select(ma => new ActorListingServiceModel
                 {
                     Id = ma.ActorId,
                     Name = ma.Actor.Name,
@@ -219,9 +226,6 @@
 
         public bool GenreExists(int[] genreIds)
         {
-            //var allIds = this.data.Genres.Select(g => g.Id).ToArray();
-            //genreIds = allIds;
-
             foreach (var genreId in genreIds)
             {
                 if (!this.data.Genres.Any(g => g.Id == genreId))
@@ -255,14 +259,8 @@
             => this.data.Directors
             .Any(d => d.Id == directorId);
 
-        public static IEnumerable<MovieServiceModel> GetMovies(IQueryable<Movie> movieQuery)
-           => movieQuery.Select(m => new MovieServiceModel
-           {
-               Id = m.Id,
-               Name = m.Name,
-               Year = m.Year,
-               ImageUrl = m.ImageUrl
-           })
+        private IEnumerable<MovieServiceModel> GetMovies(IQueryable<Movie> movieQuery)
+           => movieQuery.ProjectTo<MovieServiceModel>(this.mapper.ConfigurationProvider)
             .ToList();
     }
 }
