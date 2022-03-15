@@ -15,8 +15,11 @@
         public IActionResult Index()
         {
             var lastMovies = index.LastReleasedMovies();
+            var topRatedMovies = index.TopRatedMovies();
 
-            return View(lastMovies);
+            var model = this.index.GetIndexViewModel(lastMovies, topRatedMovies);
+
+            return View(model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

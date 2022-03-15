@@ -9,7 +9,7 @@
     using MyMoviesProject.Data.Models;
     using MyMoviesProject.Models.Movies;
     using MyMoviesProject.Services.Actors;
-    using MyMoviesProject.Services.Directors;
+    using System;
 
     public class MovieService : IMovieService
     {
@@ -20,7 +20,7 @@
         {
             this.data = data;
             this.mapper = mapper;
-        } 
+        }
 
         public int Add(string name, int[] genresIds, string imageUrl, int year,
             int directorId, int[] actorsIds, string storyline)
@@ -40,7 +40,7 @@
                 {
                     MovieId = movie.Id,
                     GenreId = genreId,
-                    Genre= this.data.Genres.FirstOrDefault(g=>g.Id==genreId),
+                    Genre = this.data.Genres.FirstOrDefault(g => g.Id == genreId),
                 });
             }
 
@@ -50,7 +50,7 @@
                 {
                     MovieId = movie.Id,
                     ActorId = actorId,
-                    Actor=this.data.Actors.FirstOrDefault(a=>a.Id==actorId),                  
+                    Actor = this.data.Actors.FirstOrDefault(a => a.Id == actorId),
                 });
             }
 
@@ -76,13 +76,14 @@
                 moviesQuery = moviesQuery
                     .SelectMany(m => m.MovieGenres.Select(g => g.Genre),
                     (m, g) => new { Movie = m, Genre = g })
-                     .Where( m => m.Genre.Name == genre).Select(m => m.Movie);                
+                     .Where(m => m.Genre.Name == genre).Select(m => m.Movie);
             }
 
             moviesQuery = sorting switch
             {
                 MovieSorting.Name => moviesQuery.OrderBy(m => m.Name.Trim()),
                 MovieSorting.Year => moviesQuery.OrderByDescending(m => m.Year),
+                MovieSorting.Rating => moviesQuery.OrderByDescending(m => m.Rating.Sum(r => r.Rating) / (m.Rating.Count() + 0.1)),
                 _ => moviesQuery.OrderByDescending(m => m.Id)
             };
 
@@ -104,7 +105,7 @@
             var movieDetails = this.data.Movies.Where(m => m.Id == id)
              .Select(m => new MovieDetailsServiceModel
              {
-                 Id=m.Id,
+                 Id = m.Id,
                  Name = m.Name,
                  Year = m.Year,
                  ImageUrl = m.ImageUrl,
@@ -117,7 +118,7 @@
             return movieDetails;
         }
 
-        public void Edit(int id, string name, string imageUrl, int[] genresIds, int year,
+        public int Edit(int id, string name, string imageUrl, int[] genresIds, int year,
             int directorId, int[] actorsIds, string storyline)
         {
             var movieData = this.data.Movies.Include(m => m.MovieActors)
@@ -152,6 +153,8 @@
             }
 
             this.data.SaveChanges();
+
+            return movieData.Id;
         }
 
         public int Remove(int id)
@@ -160,7 +163,7 @@
 
             foreach (var ma in this.data.MovieActors)
             {
-                if(ma.MovieId == id)
+                if (ma.MovieId == id)
                 {
                     this.data.MovieActors.Remove(ma);
                 }
@@ -184,31 +187,64 @@
         }
 
         public MovieDetailsViewModel Details(int id)
-            => this.data.Movies.Where(m => m.Id == id)
-            .Select(m => new MovieDetailsViewModel
+        {
+           var result = this.data.Movies.Where(m => m.Id == id)
+              .Select(m => new MovieDetailsViewModel
+              {
+                  Id = m.Id,
+                  Name = m.Name,
+                  Year = m.Year,
+                  ImageUrl = m.ImageUrl,
+                  Director = new MovieDirectorServiceModel
+                  {
+                      Id = m.DirectorId,
+                      Name = m.Director.Name
+                  },
+                  Storyline = m.Storyline,
+                  Actors = m.MovieActors.Select(ma => new ActorListingServiceModel
+                  {
+                      Id = ma.ActorId,
+                      Name = ma.Actor.Name,
+                      ImageUrl = ma.Actor.ImageUrl
+                  }).ToList(),
+                  Genres = m.MovieGenres.Select(mg => new MovieGenresServiceModel
+                  {
+                      Id = mg.GenreId,
+                      Name = mg.Genre.Name
+                  }).ToList(),
+              }).FirstOrDefault();
+
+            var movie = this.data.Movies.Include(m => m.Rating)
+                .FirstOrDefault(m => m.Id == id);
+
+            if (movie.Rating != null && movie.Rating.Count() > 0 )
             {
-                Id = m.Id,
-                Name = m.Name,
-                Year = m.Year,
-                ImageUrl = m.ImageUrl,
-                Director = new MovieDirectorServiceModel
+                var avgRating =(decimal)movie.Rating.Sum(r => r.Rating) / movie.Rating.Count();
+                result.AverageRating =Math.Round(avgRating, 2);
+            }
+
+            return result;
+        }
+
+        public void AddRating(int movieId, string userId, int rating)
+        {
+            var userRating = this.data.MovieRatings.FirstOrDefault(mr => mr.UserId == userId && mr.MovieId == movieId);
+            if (userRating != null)
+            {
+                userRating.Rating = rating;
+            }
+            else
+            {
+                this.data.MovieRatings.Add(new MovieRating
                 {
-                    Id = m.DirectorId,
-                    Name = m.Director.Name
-                },
-                Storyline = m.Storyline,
-                Actors = m.MovieActors.Select(ma => new ActorListingServiceModel
-                {
-                    Id = ma.ActorId,
-                    Name = ma.Actor.Name,
-                    ImageUrl = ma.Actor.ImageUrl
-                }).ToList(),
-                Genres = m.MovieGenres.Select(mg => new MovieGenresServiceModel
-                {
-                    Id = mg.GenreId,
-                    Name = mg.Genre.Name
-                }).ToList()
-            }).FirstOrDefault();
+                    MovieId = movieId,
+                    UserId = userId,
+                    Rating = rating
+                });
+            }
+
+            this.data.SaveChanges();
+        }
 
         public bool IsMovieExists(string name) =>
             name != null ? this.data.Movies.Any(m => m.Name.ToLower() == name.ToLower()) : false;
@@ -216,13 +252,22 @@
         public bool isIdValid(int id)
             => this.data.Movies.Any(m => m.Id == id);
 
+        public decimal GetAverageRating(int id)
+        {
+            var result = this.data.Movies.Include(m => m.Rating)
+                .FirstOrDefault(m => m.Id == id);
+
+                return result.Rating.Count() == 0? 0 :(decimal)result.Rating.Sum(r => r.Rating) / result.Rating.Count();
+        }
+
         public IEnumerable<MovieGenresServiceModel> AllGenres()
             => this.data.Genres
             .Select(g => new MovieGenresServiceModel
             {
                 Id = g.Id,
                 Name = g.Name
-            }).ToList();
+            }).OrderBy(g => g.Name)
+            .ToList();
 
         public bool GenreExists(int[] genreIds)
         {

@@ -32,7 +32,7 @@
 
             this.directors.Add(director.Name, director.Biography, director.ImageUrl);
 
-            return RedirectToAction("All");
+            return RedirectToAction("Details");
         }
 
         public IActionResult All(int currentPage)

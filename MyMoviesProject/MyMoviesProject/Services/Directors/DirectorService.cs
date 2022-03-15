@@ -27,7 +27,7 @@
             return director.Id;
         }
 
-        public DirectorQueryServiceModel ListAll(int currentPage)
+        public DirectorQueryServiceModel ListAll(int currentPage = 1)
         {
             var directors = this.GetAll().Skip((currentPage - 1) * DirectorQueryServiceModel.DirectorsPerPage)
                 .Take(DirectorQueryServiceModel.DirectorsPerPage).ToList();

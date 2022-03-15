@@ -30,7 +30,7 @@
                 return View(actor);
             }
 
-            this.actors.Add(actor.Name, actor.Biography, actor.ImageUrl);
+            var actorId = this.actors.Add(actor.Name, actor.Biography, actor.ImageUrl);
 
             return RedirectToAction("All");
         }

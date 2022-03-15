@@ -1,12 +1,19 @@
-﻿@model IEnumerable<MovieServiceModel>
+﻿@model IndexViewModel
 
 @{ ViewData["Title"] = "Welcome"; }
 
 <div class="row">
-    <div class="mb-4">
-        <h3>Last Released</h3>
+    <div class="mb-2">
+        <h3>Last Released:</h3>
     </div>
-    <partial name="_MovieListingPartial" model="@Model" />
+    <partial name="_MovieListingPartial" model="@Model.LastRealeses" />
+</div>
+
+<div class="row">
+    <div class="mb-2">
+        <h3>Top Rated:</h3>
+    </div>
+    <partial name="_MovieListingPartial" model="@Model.TopRated" />
 </div>
 
 

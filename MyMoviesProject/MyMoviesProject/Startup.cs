@@ -14,6 +14,7 @@ namespace MyMoviesProject
     using MyMoviesProject.Services.Directors;
     using MyMoviesProject.Services.Index;
     using MyMoviesProject.Services.Movies;
+    using MyMoviesProject.Services.Users;
     using MyMoviesProject.Services.Watchlist;
 
     public class Startup
@@ -54,6 +55,7 @@ namespace MyMoviesProject
             services.AddTransient<IMovieService, MovieService>();
             services.AddTransient<IIndexService, IndexService>();
             services.AddTransient<IWatchlistService, WatchlistService>();
+            services.AddTransient<IUserService, UserService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

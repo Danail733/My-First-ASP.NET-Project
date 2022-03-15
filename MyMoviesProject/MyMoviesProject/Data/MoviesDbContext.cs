@@ -25,6 +25,8 @@
 
         public DbSet<Watchlist> Watchlists { get; set; }
 
+        public DbSet<MovieRating> MovieRatings { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Movie>()
@@ -74,7 +76,25 @@
                   .WithOne(w => w.User)
                   .HasForeignKey<User>(u => u.WatchlistId)
                   .OnDelete(DeleteBehavior.Restrict);
-          
+
+            builder.Entity<MovieRating>()
+                .HasOne(mr => mr.Movie)
+                .WithMany(m => m.Rating)
+                .HasForeignKey(mr => mr.MovieId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<MovieRating>()
+                .HasOne(mr => mr.User)
+                .WithMany(u => u.Rating)
+                .HasForeignKey(mr => mr.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<MovieRating>().HasKey(ma => new
+            {
+                ma.MovieId,
+                ma.UserId
+            });
+
             base.OnModelCreating(builder);
         }
     }

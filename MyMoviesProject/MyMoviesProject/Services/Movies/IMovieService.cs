@@ -13,12 +13,16 @@
 
         public MovieDetailsServiceModel FormDetails(int id);
 
-        public void Edit(int id, string name, string imageUrl, int[] genresIds, int year,
+        public int Edit(int id, string name, string imageUrl, int[] genresIds, int year,
             int directorId, int[] actorsIds, string storyline);
 
         public MovieDetailsViewModel Details(int id);
 
+        public void AddRating(int movieId, string userId, int rating);
+
         public IEnumerable<MovieGenresServiceModel> AllGenres();
+
+        public decimal GetAverageRating(int id);
 
         public bool GenreExists(int[] genreIds);
 

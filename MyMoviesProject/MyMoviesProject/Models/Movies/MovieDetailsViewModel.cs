@@ -18,6 +18,8 @@
 
         public string Storyline { get; init; }
 
+        public decimal AverageRating { get; set; }
+
         public IEnumerable<MovieGenresServiceModel> Genres { get; set; }
 
         public IEnumerable<ActorListingServiceModel> Actors { get; set; }

@@ -30,6 +30,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = administratorRoleName)]
         public IActionResult Add(MovieFormModel movie)
         {
             if (!this.movies.GenreExists(movie.GenresIds))
@@ -60,7 +61,7 @@
 
             TempData[WebConstants.SuccessFullGlobalMessageKey] = "The movie was edited successfully!";
 
-            return RedirectToAction("All", "Movies");
+            return RedirectToAction("Details", "Movies");
         }
 
         public IActionResult All([FromQuery] AllMoviesQueryModel query)
@@ -85,10 +86,10 @@
             movieFom.Actors = this.movies.AllActors();
 
             return View(movieFom);
-
         }
 
         [HttpPost]
+        [Authorize(Roles = administratorRoleName)]
         public IActionResult Edit(int id, MovieFormModel movie)
         {
             if (!this.movies.GenreExists(movie.GenresIds))
@@ -114,12 +115,12 @@
                 return BadRequest();
             }
 
-            this.movies.Edit(id, movie.Name, movie.ImageUrl, movie.GenresIds, movie.Year,
+            var movieId = this.movies.Edit(id, movie.Name, movie.ImageUrl, movie.GenresIds, movie.Year,
                 movie.DirectorId, movie.ActorsIds, movie.Storyline);
 
             TempData[WebConstants.SuccessFullGlobalMessageKey] = "The movie was edited successfully!";
                   
-            return RedirectToAction("All", "Movies");
+            return RedirectToAction("All");
         }
 
         [Authorize(Roles = administratorRoleName)]
@@ -135,6 +136,11 @@
             var movie = this.movies.Details(id);
 
             return View(movie);
+        }
+
+        public IActionResult Test()
+        {
+            return View();
         }
     }
 }

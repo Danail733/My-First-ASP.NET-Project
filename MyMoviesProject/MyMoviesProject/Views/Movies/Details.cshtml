@@ -1,11 +1,21 @@
 ﻿@model MovieDetailsViewModel
 
 @{
-    int genreCount = 0;
+    var genreCount = 0;
+    var isAuthenticated = this.User.Identity.IsAuthenticated;
 }
+<head>
+    <script src="https://kit.fontawesome.com/eadc080fbb.js" crossorigin="anonymous"></script>
+</head>
 <div class="container">
     <div class="row">
-        <h1 class="mb-3">@Model.Name</h1>
+        <h1 class="mb-3">
+            @Model.Name
+            @if (Model.AverageRating != 0)
+            {
+            <span id="averageRating">(@Model.AverageRating.ToString("f2"))</span>
+            }
+        </h1>
         <div class="col-md-5">
             <img src="@Model.ImageUrl" class="img-fluid">
         </div>
@@ -32,11 +42,11 @@
                 Director:
                 <a asp-controller="Directors" asp-action="Details" asp-route-id="@Model.Director.Id" class="btn btn-primary">@Model.Director.Name</a>
             </h3>
-            <h3>Cast:</h3>
+            <h3>Top cast:</h3>
             <div class="row mb-3">
                 @foreach (var actor in Model.Actors)
                 {
-                    <div class="card" style="width: 8rem;">
+                    <div class="card mycard" style="width: 8rem;">
                         <a asp-controller="Actors" asp-action="Details" asp-route-id="@actor.Id" class="text-dark">
                             @actor.Name
                         </a>
@@ -46,9 +56,37 @@
             </div>
             <h3>Storyline: </h3>
             <p>@Model.Storyline</p>
-        </div>
-    </div>
+            <h3>Rate</h3>
+
+            @if (isAuthenticated == true)
+            {
+                <div class="rating" id="@Model.Id">
+                    <span class="rating__result"></span>
+                    <i class="rating__star far fa-star" id="1"></i>
+                    <i class="rating__star far fa-star" id="2"></i>
+                    <i class="rating__star far fa-star" id="3"></i>
+                    <i class="rating__star far fa-star" id="4"></i>
+                    <i class="rating__star far fa-star" id="5"></i>
+                </div>
+            }
+            else
+            {
+                <div class="rating" id="@Model.Id" onclick="return alert('You have to be logged in to rate!')">
+                    <span class="rating__result"></span>
+                    <i class="rating__star far fa-star" id="1"></i>
+                    <i class="rating__star far fa-star" id="2"></i>
+                    <i class="rating__star far fa-star" id="3"></i>
+                    <i class="rating__star far fa-star" id="4"></i>
+                    <i class="rating__star far fa-star" id="5"></i>
+                 </div>
+             }
+                </div>
+            </div>
 </div>
 
 
 
+@section scripts
+{ 
+    <script src="~/js/site.js" asp-append-version="true"></script>
+}

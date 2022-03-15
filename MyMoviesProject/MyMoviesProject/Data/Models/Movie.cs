@@ -30,5 +30,7 @@
         public string Storyline { get; set; }
 
         public IEnumerable<Watchlist> Watchlists { get; set; } = new List<Watchlist>();
+
+        public IEnumerable<MovieRating> Rating { get; set; } = new List<MovieRating>();
     }
 }

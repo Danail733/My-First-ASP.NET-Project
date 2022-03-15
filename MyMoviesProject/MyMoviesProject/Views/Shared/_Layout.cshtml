@@ -9,12 +9,16 @@
 
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka&family=Signika+Negative&display=swap" rel="stylesheet">
+    <script src="https://use.fontawesome.com/5ac93d4ca8.js"></script>
 
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
+            <div class="container mycard">
                 @*<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Movies for everyone</a>*@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +42,8 @@
                             </li>
                                             <li class="dropdown-item">
                                                 <a class="nav-link text-dark" asp-area="" asp-controller="Movies" asp-action="Add">Add Movie</a>
-                                            </li>}
+                                            </li>
+}
                         <li class="dropdown-item">
                             <a class="nav-link text-dark" asp-controller="Movies" asp-action="All">All Movies</a>
                         </li>
@@ -52,18 +57,19 @@
                         {
             <li class="nav-item dropdown-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Watchlist" asp-action="Movies">Watchlist</a>
-            </li>}
+            </li>
+}
                     </ul>
                 </div>
                 @*<div class="dropdown">
-            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                Movies for everyone
-            </a>
+                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                            Movies for everyone
+                        </a>
 
 
-            </ul>
+                        </ul>
 
-        </div>*@
+                    </div>*@
                 <partial name="_LoginPartial" />
                 @*<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">*@
                 @*<ul class="navbar-nav flex-grow-1">*@
@@ -76,14 +82,14 @@
 
         @if (TempData.ContainsKey(WebConstants.SuccessFullGlobalMessageKey))
         {
-    <div class="alert alert-success" role="alert">
-        @TempData[WebConstants.SuccessFullGlobalMessageKey]
-    </div>}
+<div class="alert alert-success" role="alert">
+    @TempData[WebConstants.SuccessFullGlobalMessageKey]
+</div>}
         @if (TempData.ContainsKey(WebConstants.FailedGlobalMessageKey))
         {
-    <div class="alert alert-danger" role="alert">
-        @TempData[WebConstants.FailedGlobalMessageKey]
-    </div>}
+<div class="alert alert-danger" role="alert">
+    @TempData[WebConstants.FailedGlobalMessageKey]
+</div>}
 
         <main role="main" class="pb-3">
             @RenderBody()
@@ -104,6 +110,6 @@
 
 
     @await RenderSectionAsync("Scripts", required: false)
-   
+
 </body>
 </html>
