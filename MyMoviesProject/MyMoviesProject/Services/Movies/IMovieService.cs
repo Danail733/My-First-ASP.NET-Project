@@ -11,7 +11,7 @@
         public MovieQueryServiceModel ListAllMovies(string searchTerm,
     MovieSorting sorting, string genre, int currentPage);
 
-        public MovieDetailsServiceModel FormDetails(int id);
+        public MovieFormServiceModel FormDetails(int id);
 
         public int Edit(int id, string name, string imageUrl, int[] genresIds, int year,
             int directorId, int[] actorsIds, string storyline);

@@ -1,6 +1,6 @@
 ﻿namespace MyMoviesProject.Services.Movies
 {
-    public class MovieDetailsServiceModel :MovieServiceModel
+    public class MovieFormServiceModel :MovieServiceModel
     {
         public int[] GenresIds { get; set; }
 

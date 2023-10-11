@@ -115,7 +115,7 @@
                 return BadRequest();
             }
 
-            var movieId = this.movies.Edit(id, movie.Name, movie.ImageUrl, movie.GenresIds, movie.Year,
+            this.movies.Edit(id, movie.Name, movie.ImageUrl, movie.GenresIds, movie.Year,
                 movie.DirectorId, movie.ActorsIds, movie.Storyline);
 
             TempData[WebConstants.SuccessFullGlobalMessageKey] = "The movie was edited successfully!";
@@ -131,7 +131,8 @@
             return RedirectToAction("All");
         }
 
-        public IActionResult Details(int id)
+        public IActionResult
+            Details(int id)
         {
             var movie = this.movies.Details(id);
 

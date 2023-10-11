@@ -1,5 +1,6 @@
 ﻿namespace MyMoviesProject.Services.Movies
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Microsoft.EntityFrameworkCore;
@@ -9,8 +10,7 @@
     using MyMoviesProject.Data.Models;
     using MyMoviesProject.Models.Movies;
     using MyMoviesProject.Services.Actors;
-    using System;
-
+    
     public class MovieService : IMovieService
     {
         private readonly MoviesDbContext data;
@@ -100,10 +100,10 @@
             };
         }
 
-        public MovieDetailsServiceModel FormDetails(int id)
+        public MovieFormServiceModel FormDetails(int id)
         {
             var movieDetails = this.data.Movies.Where(m => m.Id == id)
-             .Select(m => new MovieDetailsServiceModel
+             .Select(m => new MovieFormServiceModel
              {
                  Id = m.Id,
                  Name = m.Name,

@@ -63,7 +63,14 @@
                 Id = d.Id,
                 Name = d.Name,
                 ImageUrl = d.ImageUrl,
-                Biography = d.Biography
+                Biography = d.Biography,
+                Movies = d.Movies.Where(m => m.DirectorId == d.Id).Select(m => new Movies.MovieServiceModel
+                {
+                    Id = m.Id,
+                    Name = m.Name,
+                    Year = m.Year,
+                    ImageUrl = m.ImageUrl,
+                })
             }).FirstOrDefault(d => d.Id == id);
 
         public bool IsDirectorExists(string name)
